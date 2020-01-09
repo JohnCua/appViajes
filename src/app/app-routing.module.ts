@@ -14,20 +14,21 @@ import {
 
 
 const routes: Routes = [
-
+  {
+    path: '',
+    redirectTo: 'panel',
+    pathMatch: 'full',
+  },
  
   //ruta para ir al panel
   {
     path: '',
     component: FullLayoutPanelComponent,
-    data: {
-      title: 'Panel'
-    },
     children: [
       {
         path: 'panel',
         loadChildren: ()=>PanelModule,
-      },
+      }
     ]
   }
 ];
