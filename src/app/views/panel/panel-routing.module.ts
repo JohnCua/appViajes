@@ -7,10 +7,25 @@ import { PanelinicioComponent } from './panelinicio/panelinicio.component';
 const routes:Routes=[
   {
         path: '',
-        component:PanelinicioComponent,
-        data: {
-          title: 'inicio'
-        }
+        children: [
+          {
+            path: '',
+            redirectTo: 'dashboard',
+            pathMatch: 'full',
+          },
+          {
+            path: 'dashboard',
+            component:PanelinicioComponent,
+            data: {
+              title: 'inicio'
+            }
+          },
+          {
+            path: 'perfil',
+
+          }
+        ]
+       
       }
     
   
