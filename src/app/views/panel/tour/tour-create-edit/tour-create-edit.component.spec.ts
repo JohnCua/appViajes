@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PanelinicioComponent } from './panelinicio.component';
+import { TourCreateEditComponent } from './tour-create-edit.component';
 
-describe('PanelinicioComponent', () => {
-  let component: PanelinicioComponent;
-  let fixture: ComponentFixture<PanelinicioComponent>;
+describe('TourCreateEditComponent', () => {
+  let component: TourCreateEditComponent;
+  let fixture: ComponentFixture<TourCreateEditComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PanelinicioComponent ]
+      declarations: [ TourCreateEditComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PanelinicioComponent);
+    fixture = TestBed.createComponent(TourCreateEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { PanelinicioComponent } from './panelinicio/panelinicio.component';
+import { InicioComponent } from './inicio/inicio.component';
+import { TourModule } from './tour/tour.module';
+import { DestinoModule } from './destino/destino.module';
 
 
 const routes:Routes=[
@@ -15,13 +17,19 @@ const routes:Routes=[
           },
           {
             path: 'dashboard',
-            component:PanelinicioComponent,
+            component:InicioComponent,
             data: {
               title: 'inicio'
             }
           },
           {
-            path: 'perfil',
+            path: 'destino',
+            loadChildren:()=>DestinoModule
+
+          },
+          {
+            path: 'tour',
+            loadChildren:()=>TourModule
 
           }
         ]

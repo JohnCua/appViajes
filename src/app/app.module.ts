@@ -18,6 +18,7 @@ import {
   FooterTravelistComponent,
   SimpleLayoutComponent
 } from './layout';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 //variable contenedor
 const APP_CONTAINERS=[
@@ -41,7 +42,8 @@ const APP_CONTAINERS=[
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
