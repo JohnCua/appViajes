@@ -1,42 +1,35 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { InicioComponent } from './inicio/inicio.component';
 import { TourModule } from './tour/tour.module';
 import { DestinoModule } from './destino/destino.module';
+import { InicioModule } from './inicio/inicio.module';
 
 
-const routes:Routes=[
+
+const routes:Routes= [
   {
-        path: '',
-        children: [
-          {
-            path: '',
-            redirectTo: 'dashboard',
-            pathMatch: 'full',
-          },
-          {
-            path: 'dashboard',
-            component:InicioComponent,
-            data: {
-              title: 'inicio'
-            }
-          },
-          {
-            path: 'destino',
-            loadChildren:()=>DestinoModule
-
-          },
-          {
-            path: 'tour',
-            loadChildren:()=>TourModule
-
-          }
-        ]
-       
-      }
+  path:'', 
+  children: [
+    {
+      path: 'inicio',
+      loadChildren: ()=>InicioModule
+    },
+    {
+      path: 'destino',
+      loadChildren: ()=>DestinoModule
+    },
+    {
+      path: 'tours',
+      loadChildren: ()=>TourModule
+    },
+ 
+    {
+      path: '', redirectTo: 'inicio', pathMatch: 'full'
+    }
     
-  
+  ]
+}
 ]
 
 @NgModule({

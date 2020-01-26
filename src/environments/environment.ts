@@ -3,8 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
-};
+  production: false,
+
+  api:{
+    apiUrl: 'http://127.0.0.1:8000/api/'
+  },
+  apiImagen: {
+    apiUrlImagen: 'http://127.0.0.1:8000/storage/',
+  }
+ };
 
 /*
  * For easier debugging in development mode, you can import the following file

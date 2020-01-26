@@ -1,19 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PanelRoutingModule } from './panel-routing.module';
-
+import { InicioRoutingModule } from './inicio-routing.module';
+import { InicioComponent } from './inicio.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatButtonModule,MatTooltipModule} from '@angular/material';
 
 
+
 @NgModule({
-  declarations: [],
+  declarations: [InicioComponent],
   imports: [
     CommonModule,
-    PanelRoutingModule,
+    InicioRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
-    MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatButtonModule
+    
   ]
 })
-export class PanelModule { }
+export class InicioModule { }

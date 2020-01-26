@@ -13,24 +13,48 @@ import {
 } from './layout';
 
 
+
 const routes: Routes = [
+
   {
     path: '',
     redirectTo: 'panel',
     pathMatch: 'full',
   },
- 
-  //ruta para ir al panel
+
+    // para mostras simple-layout
+  {
+    path: '',
+    component: SimpleLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: ()=>PagesModule,
+      },
+    ]
+  },
+
+
+  // ruta para joblist general
   {
     path: '',
     component: FullLayoutPanelComponent,
+    data: {
+      title: 'Panel'
+    },
     children: [
       {
         path: 'panel',
         loadChildren: ()=>PanelModule,
       }
     ]
-  }
+  },
+
+{
+  path: '**',
+  redirectTo: '404',
+  pathMatch: 'full',
+}
 ];
 
 @NgModule({
