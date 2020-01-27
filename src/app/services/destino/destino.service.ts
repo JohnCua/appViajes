@@ -9,8 +9,6 @@ export class DestinoService extends MetodosBase {
 
   constructor(private http:HttpClient) { super(http); }
 
-  getUrl='http://127.0.0.1:8000/api/';
-
   createDestino(data:any){
     return this.post(`destino`,data);
   }
