@@ -18,7 +18,7 @@ const routes: Routes=[
     path: '',
     children:[
       {
-        path: 'registrar',
+        path: 'createdit',
         component: DestinoCreateEditComponent,
         data: {
           title: 'Registro destino'
