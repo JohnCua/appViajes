@@ -23,6 +23,12 @@ const routes: Routes=[
         data: {
           title: 'Registro destino'
         }
+      },{
+        path: 'createdit/:id',
+        component:DestinoCreateEditComponent,
+        data: {
+          title: 'Actualizar destino'
+        }
       }
     ]
   }

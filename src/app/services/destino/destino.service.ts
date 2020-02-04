@@ -13,8 +13,16 @@ export class DestinoService extends MetodosBase {
     return this.get('destino',filtro);
   }
 
+  getDestino(destino_id){
+    return this.get(`destino/${destino_id}`);
+  }
+
   createDestino(data:any){
     return this.post(`destino`,data);
+  }
+
+  updateDestino(destino_id,data){
+    return this.put(`destino/${destino_id}`,data);
   }
 
   getPaises(pais_id){
@@ -23,6 +31,10 @@ export class DestinoService extends MetodosBase {
 
   getLugaresSelect(filter:any){
     return this.get(`lugar`,filter);
+  }
+
+  deleteDestino(destino_id:any){
+    return this.delete(`destino/${destino_id}`);
   }
 
 }

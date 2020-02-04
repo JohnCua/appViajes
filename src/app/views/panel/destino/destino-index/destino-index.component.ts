@@ -1,10 +1,14 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { DestinoService } from 'src/app/services/destino/destino.service';
-import {PageEvent} from '@angular/material/paginator';
-
-
+import Swal from 'sweetalert2';
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top',
+  showConfirmButton: false,
+  timer: 3000
+});
 @Component({
   selector: 'app-destino-index',
   templateUrl: './destino-index.component.html',
@@ -14,11 +18,8 @@ export class DestinoIndexComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'nombre', 'encabezado', 'lugar','valoracion', 'opciones'];
 
-
   destinos:any=[];
   
-    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
   //Paginacion
   public currentPage = 1;
   public length = 0;
@@ -26,10 +27,6 @@ export class DestinoIndexComponent implements OnInit {
   public sortBy = "id";
   public sortOrder = "asc";
 
-  // MatPaginator Output
-  pageEvent: PageEvent;
-
-  
   //Busqueda
   public filterQuery = '';
   public searchTimeout : any;
@@ -40,10 +37,6 @@ export class DestinoIndexComponent implements OnInit {
   }
 
   ngOnInit() {
-    
-    this.destinos.paginator = this.paginator;
-   
-    
   }
 
   //Parametro: BUsqueda es un termino para buscar
@@ -88,6 +81,45 @@ export class DestinoIndexComponent implements OnInit {
       else {
         this.getDestinos();
       }
+  }
+
+
+  eliminarDestino(destino_id,indice){
+    console.log(indice)
+    let destino =  {
+      id:destino_id
+    } 
+    Swal.fire({
+      title: 'Esta seguro?',
+      text: "No se podran revertir los cambios!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar!!'
+    }).then((result) => {
+      if (result.value) {
+
+        this.destinoService.deleteDestino(destino_id).subscribe((respuesta)=>{
+         
+          if(respuesta.success){
+
+            console.log(this.destinos)
+            this.destinos.splice(indice,1);
+
+            Swal.fire(
+              'Eliminado!',
+              'Datos eliminado exitoso.',
+              'success'
+            );
+            console.log(this.destinos)
+          }
+        })
+     
+      }
+    })
+
+  
   }
 
 }

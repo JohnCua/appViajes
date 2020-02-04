@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DestinoService } from 'src/app/services/destino/destino.service';
 import * as $ from 'jquery';
+import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-destino-create-edit',
   templateUrl: './destino-create-edit.component.html',
@@ -17,15 +18,23 @@ export class DestinoCreateEditComponent implements OnInit {
   filesSinGuardar: File[]=[];
 
   destinoForm:FormGroup;
+  destino_id:number=0;
   paises:any=[];
   lugares:any=[];
   imagenes:any=["manzana","materia"];
   jsonImagenes:string='';
 
+  //bandera para ver si esta editando o registrando
+  editing:boolean=false;
+
 
  
 
-  constructor(private formBuilder:FormBuilder, private destinoService:DestinoService) {
+  constructor(private formBuilder:FormBuilder, 
+    private destinoService:DestinoService,
+    private router:Router,
+    private route:ActivatedRoute
+    ){
     this.paises = [{id:1, nombre:'Guatemala'}];
    }
 
@@ -33,7 +42,17 @@ export class DestinoCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.onInitForm();
+    this.destino_id=this.route.snapshot.params['id'];
    // this.selectPais();
+   if(this.destino_id){
+     this.editing=true;
+     var editingTxt=document.getElementById('txtTitulo');
+     editingTxt.innerText="Actualizar datos";
+     this.editingDestino(this.destino_id);
+
+   }else{
+    this.editing=false;
+   }
   }
 
   onInitForm(){
@@ -102,6 +121,14 @@ export class DestinoCreateEditComponent implements OnInit {
    console.log(this.filesSinGuardar);
   }
 
+  createditDestino(){
+    if(this.editing){
+      this.actualizarDestino();
+    }else{
+      this.registrarDestino();
+    }
+  }
+
   registrarDestino(){
     
     this.destinoForm.get('lugar_id').setValue(parseInt(this.destinoForm.get('lugar_id').value))
@@ -111,6 +138,37 @@ export class DestinoCreateEditComponent implements OnInit {
       console.log(error);
     });
 
+  }
+
+
+  actualizarDestino(){
+    this.destinoForm.get('lugar_id').setValue(parseInt(this.destinoForm.get('lugar_id').value))
+    this.destinoService.updateDestino(this.destino_id,this.destinoForm.value).subscribe((respuesta)=>{
+      console.log(respuesta);
+    },(error)=>{
+      console.log(error);
+    })
+
+  }
+
+  editingDestino(destino_id){
+    this.destinoService.getDestino(destino_id).subscribe((respuesta)=>{
+      this.destinoForm.get('nombre').setValue(respuesta.destino.nombre);
+      this.destinoForm.get('encabezado').setValue(respuesta.destino.encabezado);
+      this.destinoForm.get('descripcion').setValue(respuesta.destino.descripcion);
+      this.destinoForm.get('galeria').setValue(respuesta.destino.galeria);
+      respuesta.destino.galeria.map((img)=>{
+        this.filesSinGuardar.push(img);
+      })
+
+      this.destinoForm.get('highlights').setValue(respuesta.destino.highlights);
+      this.destinoForm.get('mas').setValue(respuesta.destino.mas);
+      this.selectPais();
+      this.destinoForm.get('pais_id').setValue(1);
+      this.destinoForm.get('lugar_id').setValue(respuesta.destino.lugar_id);
+      
+      console.log(respuesta);
+    });
   }
 
   //funcion para cancelar el envio de archivo

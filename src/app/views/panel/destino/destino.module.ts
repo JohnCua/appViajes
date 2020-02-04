@@ -8,6 +8,8 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {MatTableModule} from '@angular/material/table'; 
 import {MatPaginatorModule} from '@angular/material/paginator'; 
 import {MatButtonModule,MatTooltipModule} from '@angular/material';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
 @NgModule({
   declarations: [DestinoIndexComponent,DestinoCreateEditComponent],
   imports: [
@@ -19,7 +21,8 @@ import {MatButtonModule,MatTooltipModule} from '@angular/material';
     MatTableModule,
     MatPaginatorModule,
     MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    SweetAlert2Module
   ]
 })
 export class DestinoModule { }
