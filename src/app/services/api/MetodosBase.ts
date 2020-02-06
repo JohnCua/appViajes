@@ -48,4 +48,20 @@ export abstract class MetodosBase{
         return this._http.delete(this.baseURL + url);
     }
 
+    protected getFile(url: String, params? : {[key: string] : any;}){
+        if (params) {
+            var _httpParams = new HttpParams({
+                fromObject : params
+            });
+            
+            return this._http.get(this.baseURL + url, { headers: new HttpHeaders({
+                'Content-Type': 'application/octet-stream'
+            }), params: _httpParams, responseType: 'blob' });
+        }
+
+        return this._http.get(this.baseURL + url, { headers: new HttpHeaders({
+            'Content-Type': 'application/octet-stream'
+        }), responseType: 'blob' });
+    }
+
 }

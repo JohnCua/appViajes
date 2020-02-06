@@ -15,7 +15,7 @@ export class DestinoCreateEditComponent implements OnInit {
   progress = 0;
 
   galeria: File[]=[];
-  filesSinGuardar: File[]=[];
+  filesSinGuardar: any[]=[];
 
   destinoForm:FormGroup;
   destino_id:number=0;
@@ -96,24 +96,36 @@ export class DestinoCreateEditComponent implements OnInit {
     this.files.link[i].descripcion=descripcion;
   }
 
+  
   onFilesAdded(files: File[], dropzone) {
-    files.map((file:any)=>{
-
+    
+    files.forEach(file => {
+      var ext:string;
+      let objeto={base_64: '', extension: '',nombre: ""};
+      var base64string='';
       this.progress=0;
       var reader = new FileReader();
       reader.onload=(readerEvt:any)=> {
         this.progress = Math.round((100 * readerEvt.loaded) / readerEvt.total);
         var binaryString = readerEvt.target.result;
+        base64string = btoa(binaryString);
+        objeto.base_64=base64string;
+ 
     };
     reader.readAsBinaryString(file);
+      ext=file.name.substring(file.name.indexOf('.'),file.name.length)
      
-
-      this.filesSinGuardar.push(file);
+      objeto.extension=ext;
+      objeto.nombre=file.name;
      
+      this.filesSinGuardar.push(objeto);
     });
 
     dropzone.reset();
   }
+
+
+
 
   GuardarArchivos(){
    this.galeria=this.filesSinGuardar;
@@ -131,7 +143,8 @@ export class DestinoCreateEditComponent implements OnInit {
 
   registrarDestino(){
     
-    this.destinoForm.get('lugar_id').setValue(parseInt(this.destinoForm.get('lugar_id').value))
+    this.destinoForm.get('lugar_id').setValue(parseInt(this.destinoForm.get('lugar_id').value));
+    console.log(this.destinoForm.value)
     this.destinoService.createDestino(this.destinoForm.value).subscribe((respuesta)=>{
       console.log(respuesta);
     }, (error)=>{
