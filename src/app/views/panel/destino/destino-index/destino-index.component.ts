@@ -31,7 +31,9 @@ export class DestinoIndexComponent implements OnInit {
   public filterQuery = '';
   public searchTimeout : any;
 
-
+  //detalle del destino
+  public detalle=[];
+  
   constructor(private destinoService:DestinoService) { 
     this.getDestinos();
   }
@@ -81,6 +83,12 @@ export class DestinoIndexComponent implements OnInit {
       else {
         this.getDestinos();
       }
+  }
+
+  verDetalle(destiono_id){
+    this.destinoService.getDestino(destiono_id).subscribe((data)=>{
+      console.log(data)
+    })
   }
 
 

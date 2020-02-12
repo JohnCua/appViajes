@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DestinoService } from 'src/app/services/destino/destino.service';
 import * as $ from 'jquery';
 import { Router, ActivatedRoute } from '@angular/router';
+import { CategoriaService } from 'src/app/services/categoria/categoria.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-destino-create-edit',
   templateUrl: './destino-create-edit.component.html',
@@ -27,11 +29,12 @@ export class DestinoCreateEditComponent implements OnInit {
   //bandera para ver si esta editando o registrando
   editing:boolean=false;
 
-
- 
+  categorias:any=[];
+  dataUrl='categoria';
 
   constructor(private formBuilder:FormBuilder, 
     private destinoService:DestinoService,
+    private categoriaService:CategoriaService,
     private router:Router,
     private route:ActivatedRoute
     ){
@@ -42,6 +45,8 @@ export class DestinoCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.onInitForm();
+    //this.onInitDataSelect();
+    this.filtroofrecimientos();
     this.destino_id=this.route.snapshot.params['id'];
    // this.selectPais();
    if(this.destino_id){
@@ -64,7 +69,15 @@ export class DestinoCreateEditComponent implements OnInit {
       highlights: ['', Validators.compose([Validators.required])],
       mas: ['', Validators.compose([Validators.required])],
       lugar_id: [0, Validators.compose([Validators.required])],
-      pais_id: [0]
+      pais_id: [0],
+      categoria_id: 0,
+    });
+    
+  }
+
+  onInitDataSelect(){
+    this.categoriaService.getCategorias().subscribe((data)=>{
+      console.log(data);
     });
   }
 
@@ -142,14 +155,37 @@ export class DestinoCreateEditComponent implements OnInit {
   }
 
   registrarDestino(){
-    
+    var categorias=$("select[name='Categoria[]']").map(function(){
+      return $(this).val().valueOf();
+    }).toArray();
+
+   
+
+   
     this.destinoForm.get('lugar_id').setValue(parseInt(this.destinoForm.get('lugar_id').value));
-    console.log(this.destinoForm.value)
+  
+    
     this.destinoService.createDestino(this.destinoForm.value).subscribe((respuesta)=>{
       console.log(respuesta);
+      if(respuesta.id){
+        if(categorias.length){
+          categorias.map((categoria)=>{
+            let objeto={
+              categoria_id:parseInt(categoria.toString()),
+              destino_id:parseInt(respuesta.id)
+            }
+            console.log('objeto a envia',objeto);
+           this.categoriaService.createCategoriaDestino(objeto).subscribe((respuesta)=>{
+              console.log(respuesta)
+           });
+        })
+        }
+       
+      }
     }, (error)=>{
       console.log(error);
     });
+    
 
   }
 
@@ -192,6 +228,48 @@ export class DestinoCreateEditComponent implements OnInit {
   cancelarArchivos(){
     this.filesSinGuardar=[];
     
+  }
+
+  filtroofrecimientos(){
+    $(document).ready( ()=> {
+      const fullUrl=`${environment.api['apiUrl']}categoria`;
+      $('#selectCategoria').select2({
+          ajax: {
+              headers:{
+               
+                "Content-Type" : "application/json",
+              },
+              url: fullUrl,
+              data: function (params) {
+                  return {
+                      nombre: params.term,
+                      page: params.page || 1
+                  };
+                 
+              },
+              dataType: 'json',
+              processResults: function (data) {
+                data.page = data.page || 1;
+                return {
+                    results: data.data.map(function (item) {
+                        return {
+                            id: item.id,
+                            text: item.nombre
+                        };
+                    }),
+                    pagination: {
+                        more: data.pagination
+                    }
+                }
+            },
+              cache: true,
+              delay: 250
+          },
+          placeholder: 'Ofrecimiento',
+          minimumInputLength : 0,
+          multiple: true
+      });
+   });
   }
 
 }

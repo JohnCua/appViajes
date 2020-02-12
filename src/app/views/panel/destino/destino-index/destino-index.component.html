@@ -1,115 +1,128 @@
 <div class="card">
-    <div class="card-header card-header-danger">
-        <h3 class="card-title text-center">Destinos</h3>
-        
-    </div>
+  <div class="card-header card-header-danger">
+    <h3 class="card-title text-center">Destinos</h3>
+
+  </div>
 </div>
 <!--
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
         Launch demo modal
       </button>   
 -->
-      
+
 
 <div class="row">
-        <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header card-header-warning">
-                        <div class="row">
-                                <div class="col-md-6">
-                                        <h4 class="card-title">Destinos</h4>
-                                        <p class="card-category">Lista de destinos en curso</p>
-                                </div>
-        
-                                <div class="col-md-6 text-right">
-                                        <button [routerLink]="['/panel/destino/createdit']" mat-raised-button type="button" matTooltip="Nuevo tour" [matTooltipPosition]="'above'" class="btn btn-secondary btn-link  btn-just-icon ">
-                                                <i class="fas fa-1x fa-plus-square"></i>
-                                            </button>
-                                </div>
-                        </div>
-                        
-                    </div>
-                    <div class="card-body table-responsive">
-                            <div class="mat-elevation-z8">
-                                    <table class="table table-hover" mat-table [dataSource]="destinos">
-                                  
-                                      <!-- Position Column -->
-                                      <ng-container matColumnDef="id">
-                                        <th  class="text-warning" mat-header-cell *matHeaderCellDef> No. </th>
-                                        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-                                      </ng-container>
-                                  
-                                      <!-- nombre Column -->
-                                      <ng-container matColumnDef="nombre">
-                                        <th class="text-warning" mat-header-cell *matHeaderCellDef> Nombre </th>
-                                        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-                                      </ng-container>
-                                  
-                                      <!-- encabezado Column -->
-                                      <ng-container matColumnDef="encabezado">
-                                        <th  class="text-warning" mat-header-cell *matHeaderCellDef> Encabezado </th>
-                                        <td mat-cell *matCellDef="let element"> {{element.encabezado}} </td>
-                                      </ng-container>
-                                  
-                                      <!-- Lugar Column -->
-                                      <ng-container matColumnDef="lugar">
-                                        <th class="text-warning" mat-header-cell *matHeaderCellDef> Lugar </th>
-                                        <td mat-cell *matCellDef="let element"> {{element.lugar}} </td>
-                                      </ng-container>
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header card-header-warning">
+        <div class="row">
+          <div class="col-md-6">
+            <h4 class="card-title">Destinos</h4>
+            <p class="card-category">Lista de destinos en curso</p>
+          </div>
 
-                                        <!-- Valoracion Column -->
-                                        <ng-container matColumnDef="valoracion">
-                                          <th class="text-warning" mat-header-cell *matHeaderCellDef> Valoracion </th>
-                                          <td mat-cell *matCellDef="let element"> {{element.valoracion}} </td>
-                                        </ng-container>
-
-                                          <!-- Valoracion Column -->
-                                          <ng-container matColumnDef="opciones">
-                                            <th class="text-warning" mat-header-cell *matHeaderCellDef> Opciones </th>
-                                            <td mat-cell class="td-actions " *matCellDef="let element; let i=index"> 
-                                              <a mat-raised-button  [routerLink]="['createdit/',element.id]" type="button"  matTooltip="Actualizar datos"  [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </a>
-                                              <button mat-raised-button type="button" matTooltip="Eliminar destino" (click)="eliminarDestino(element.id,i)" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                          </ng-container>
-                                    
-                                  
-                                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                                    </table>
-                                  
-                                    <mat-paginator  [length]="length" [pageSize]="pageSize" 
-                                                    (page)="cambioPagina($event)"[pageSizeOptions]="[5, 10, 20]" 
-                                                    showFirstLastButtons >
-                                    </mat-paginator>
-                                  </div>
-                    </div>
-                </div>
+          <div class="col-md-6 text-right">
+            <button [routerLink]="['/panel/destino/createdit']" mat-raised-button type="button" matTooltip="Nuevo tour"
+              [matTooltipPosition]="'above'" class="btn btn-secondary btn-link  btn-just-icon ">
+              <i class="fas fa-1x fa-plus-square"></i>
+            </button>
+          </div>
         </div>
+
+      </div>
+      <div class="card-body table-responsive">
+        <div class="mat-elevation-z8">
+          <table class="table table-hover" mat-table [dataSource]="destinos">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="id">
+              <th class="text-warning" mat-header-cell *matHeaderCellDef> No. </th>
+              <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+
+            <!-- nombre Column -->
+            <ng-container matColumnDef="nombre">
+              <th class="text-warning" mat-header-cell *matHeaderCellDef> Nombre </th>
+              <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+            </ng-container>
+
+            <!-- encabezado Column -->
+            <ng-container matColumnDef="encabezado">
+              <th class="text-warning" mat-header-cell *matHeaderCellDef> Encabezado </th>
+              <td mat-cell *matCellDef="let element"> {{element.encabezado}} </td>
+            </ng-container>
+
+            <!-- Lugar Column -->
+            <ng-container matColumnDef="lugar">
+              <th class="text-warning" mat-header-cell *matHeaderCellDef> Lugar </th>
+              <td mat-cell *matCellDef="let element"> {{element.lugar}} </td>
+            </ng-container>
+
+            <!-- Valoracion Column -->
+            <ng-container matColumnDef="valoracion">
+              <th class="text-warning" mat-header-cell *matHeaderCellDef> Valoracion </th>
+              <td mat-cell *matCellDef="let element"> {{element.valoracion}} </td>
+            </ng-container>
+
+            <!-- acciones Column -->
+            <ng-container matColumnDef="opciones">
+              <th class="text-warning" mat-header-cell *matHeaderCellDef> Opciones </th>
+              <td mat-cell class="td-actions " *matCellDef="let element; let i=index">
+                  <button mat-raised-button type="button" matTooltip="Eliminar destino"
+                  (click)="eliminarDestino(element.id,i)" [matTooltipPosition]="'above'"
+                  class="btn btn-danger btn-link btn-sm btn-just-icon">
+                  <i class="material-icons">close</i>
+                </button>
+                <a mat-raised-button [routerLink]="['createdit/',element.id]" type="button"
+                  matTooltip="Actualizar datos" [matTooltipPosition]="'above'"
+                  class="btn btn-primary btn-link btn-sm btn-just-icon">
+                  <i class="material-icons">edit</i>
+                </a>
+                <a mat-raised-button  type="button" (click)="verDetalle(element.id)" data-toggle="modal"
+                data-target="#detalleDestino"
+                matTooltip="Ver detalle" [matTooltipPosition]="'above'"
+                class="btn btn-primary btn-link btn-sm btn-just-icon">
+                <i class="material-icons">remove_red_eye</i>
+              </a>
+                
+              </td>
+            </ng-container>
+
+                                <!--EL CAMINO ASI ES-->
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+
+          <mat-paginator [length]="length" [pageSize]="pageSize" (page)="cambioPagina($event)"
+            [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg"   role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              ...
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
-        </div>
+<div class="modal fade" id="detalleDestino" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

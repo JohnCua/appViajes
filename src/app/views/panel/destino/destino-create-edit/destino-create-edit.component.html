@@ -1,155 +1,165 @@
 <div class="row " style="align-content: center; align-items: center; align-self: center;">
-        
-        <div class="col-md-8 ">
-            <div class="card">
-                <div class="card-header card-header-info">
-                    <h4 id="txtTitulo" class="card-title">Registro de nuevo destino</h4>
-                   
-                </div>
-                <div class="card-body">
-                    <form [(formGroup)]="destinoForm">
-                    <div class="form-row">
-                      <div class="form-group col-md-6">
-                        <label for="inputEmail4">Nombre</label>
-                        <input type="text" class="form-control" formControlName="nombre" id="inputEmail4">
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="inputPassword4">Encabezado</label>
-                        <input type="text" class="form-control" formControlName="encabezado" id="inputPassword4">
-                      </div>
-                    </div>
-                   
-                   
-                    <div class="form-row">
-                      <div class="form-group col-md-6">
-                        <label for="inputCity">Highlights</label>
-                        <input type="text" class="form-control" formControlName="highlights" id="inputCity">
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="inputCity">Mas</label>
-                        <input type="text" class="form-control" formControlName="mas" id="inputCity">
-                      </div>
-                    
-                    </div>
 
-                   
-                    <div class="form-row">
-                            <label>Descripcion</label>
-                          
-                              <textarea  class="form-control" formControlName="descripcion" placeholder="Lamborghini "></textarea>
-                    </div>
-                    <div class="form-group text-center">
-                            <button style="width: 200px;" type="button" class="btn btn-default modal-title" data-toggle="modal" data-target="#ModaFile" (click)="SubirArchivosModal()">
-                                <span> <i class="fas fa-upload"></i> Galeria</span>
-                            </button>
-                    </div>
-                                
-                          <div class="form-row">
-                            <div class="form-group col-md-6">
-                                    <label>Pais</label>
-                                    <select class="form-control" formControlName="pais_id"   (click)="selectPais()">
-                                            <option value="0">Seleccione pais</option>
-                                            <option value="{{pais.id}}" *ngFor="let pais of paises">
-                                                {{pais.nombre}}
-                                              </option>
-                                        </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                    <label>Lugar</label>
-                                    <select class="form-control" formControlName="lugar_id" id="exampleFormControlSelect1">
-                                        <option value="0">Seleccione lugar</option>    
-                                        <option value="{{lugar.id}}" *ngFor="let lugar of lugares">{{lugar.nombre}}</option>
-                                    </select>
-                            </div>
-                          
-                          </div>
+  <div class="col-md-8 ">
+    <div class="card">
+      <div class="card-header card-header-info">
+        <h4 id="txtTitulo" class="card-title">Registro de nuevo destino</h4>
 
-                        
-                          <br>
-                    
-                    <button (click)="createditDestino()" ctype="submit" class="btn btn-primary pull-right">Guardar</button>
-                    <div class="clearfix"></div>
-                </form>
-              </div>
-          </div>
       </div>
-  </div>
-
-
-
-
-   <!--modal para subir galeria-->
-   <div class="modal fade" id="ModaFile" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-          <!--contendio-->
-           <div class="modal-content" style="border-radius: 15px !important;">
-                  <!--end contendio-->
-                        <div class="container-fluid ">
-                            <div class="row ">
-                                
-            
-                                <!--Div -->
-                                <div class="col-md-12 d-none d-md-block bg-cover rounded-left">
-                                    <br>
-                                    <div class="col-md-12 m-b-30">
-                                        <div class="titulo2">
-                                            Adjuntar achivos
-                                        </div>
-                                    </div>
-
-                               
-                                    
-
-                                    <ngx-dropzone #dropzone id="dropzone" label="Arrastrar archivos o dar click" [accept]="'image/png, image/jpg, image/jpeg, image/PNG, .pdf'" [multiple]="true" [showPreviews]="true" class="custom-dropzone" (filesAdded)="onFilesAdded($event,dropzone)">
-                                    </ngx-dropzone>
-                                    <br>
-                                    <div class="col-md-12 m-b-30" *ngIf="filesSinGuardar.length>0">
-                                        <h5>Galeria</h5>
-                                        <div class="table-responsive">
-                                            <table class="table align-td-middle table-card">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nombre</th>
-                                                        <th>Progreso</th>
-                                                       
-                                                        <th>Accion</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr *ngFor="let file of filesSinGuardar ; let i =index">
-                                                        <td>{{file.nombre}}</td>
-                                                        <td>
-                                                            <div class="progress" style="margin-bottom: 0;">
-                                                                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': progress + '%' }"></div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(i)">
-                                                                <span ><i class="fas fa-trash-alt"></i></span> 
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    
-                                        <div class="form-group col-md-8">
-                                            <button type="button" class="btn btn-secondary" style="background-color: #92929D;" data-dismiss="modal" (click)="cancelarArchivos()" (click)="dropzone.reset()">
-                                                            Cancelar
-                                            </button>
-
-                                            <button class="btn btn-primary" style="background-color: #0062FF;" [disabled]="!(filesSinGuardar.length>0)" data-dismiss="modal" (click)="GuardarArchivos()">Guardar</button>
-                                        </div>
-                                      
-                                   
-                                   
-                                </div>
-                                <!--end Div -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="card-body">
+        <form [(formGroup)]="destinoForm">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">Nombre</label>
+              <input type="text" class="form-control" formControlName="nombre" id="inputEmail4">
             </div>
-            <!--End Modal para subir archivos -->
-     
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Encabezado</label>
+              <input type="text" class="form-control" formControlName="encabezado" id="inputPassword4">
+            </div>
+          </div>
+
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputCity">Highlights</label>
+              <input type="text" class="form-control" formControlName="highlights" id="inputCity">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputCity">Mas</label>
+              <input type="text" class="form-control" formControlName="mas" id="inputCity">
+            </div>
+
+          </div>
+
+
+          <div class="form-row">
+              <div class="form-group col-md">
+            <label>Descripcion</label>
+
+            <textarea class="form-control" formControlName="descripcion" placeholder="Lamborghini "></textarea>
+
+          </div>
+          </div>
+          <br>
+          <div class="form-group text-center">
+            <button style="width: 200px;" type="button" class="btn btn-default modal-title" data-toggle="modal"
+              data-target="#ModaFile" (click)="SubirArchivosModal()">
+              <span> <i class="fas fa-upload"></i> Galeria</span>
+            </button>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Pais</label>
+              <select class="form-control" formControlName="pais_id" (click)="selectPais()">
+                <option value="0">Seleccione pais</option>
+                <option value="{{pais.id}}" *ngFor="let pais of paises">
+                  {{pais.nombre}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Lugar</label>
+              <select class="form-control" formControlName="lugar_id" id="exampleFormControlSelect1">
+                <option value="0">Seleccione lugar</option>
+                <option value="{{lugar.id}}" *ngFor="let lugar of lugares">{{lugar.nombre}}</option>
+              </select>
+            </div>
+
+          </div>
+
+        <br>
+            <div class="form-group text-center">
+              <label>Categoria</label>
+              <select multiple name="Categoria[]" id="selectCategoria" class="select2" style="width:100%" >
+              </select>
+            </div>
+            
+
+         
+
+
+          <br>
+
+          <button (click)="createditDestino()" ctype="submit" class="btn btn-primary pull-right">Guardar</button>
+          <div class="clearfix"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!--modal para subir galeria-->
+<div class="modal fade" id="ModaFile" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <!--contendio-->
+    <div class="modal-content" style="border-radius: 15px !important;">
+      <!--end contendio-->
+      <div class="container-fluid ">
+        <div class="row ">
+
+          <!--Div -->
+          <div class="col-md-12 d-none d-md-block bg-cover rounded-left">
+            <br>
+            <div class="col-md-12 m-b-30">
+              <div class="titulo2">
+                Adjuntar achivos
+              </div>
+            </div>
+            <ngx-dropzone #dropzone id="dropzone" label="Arrastrar archivos o dar click"
+              [accept]="'image/png, image/jpg, image/jpeg, image/PNG'" [multiple]="true" [showPreviews]="true"
+              class="custom-dropzone" (filesAdded)="onFilesAdded($event,dropzone)">
+            </ngx-dropzone>
+            <br>
+            <div class="col-md-12 m-b-30" *ngIf="filesSinGuardar.length>0">
+              <h5>Galeria</h5>
+              <div class="table-responsive">
+                <table class="table align-td-middle table-card">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Progreso</th>
+
+                      <th>Accion</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let file of filesSinGuardar ; let i =index">
+                      <td>{{file.nombre}}</td>
+                      <td>
+                        <div class="progress" style="margin-bottom: 0;">
+                          <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': progress + '%' }"></div>
+                        </div>
+                      </td>
+                      <td>
+                        <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(i)">
+                          <span><i class="fas fa-trash-alt"></i></span>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="form-group col-md-8">
+              <button type="button" class="btn btn-secondary" style="background-color: #92929D;" data-dismiss="modal"
+                (click)="cancelarArchivos()" (click)="dropzone.reset()">
+                Cancelar
+              </button>
+              <button class="btn btn-primary" style="background-color: #0062FF;"
+                [disabled]="!(filesSinGuardar.length>0)" data-dismiss="modal"
+                (click)="GuardarArchivos()">Guardar</button>
+            </div>
+          </div>
+          <!--end Div -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--End Modal para subir archivos -->

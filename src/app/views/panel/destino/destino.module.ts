@@ -9,6 +9,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator'; 
 import {MatButtonModule,MatTooltipModule} from '@angular/material';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { Select2Module } from 'ng2-select2';
 
 @NgModule({
   declarations: [DestinoIndexComponent,DestinoCreateEditComponent],
@@ -22,7 +23,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     MatPaginatorModule,
     MatButtonModule,
     MatTooltipModule,
-    SweetAlert2Module
+    SweetAlert2Module,
+    Select2Module
   ]
 })
 export class DestinoModule { }
