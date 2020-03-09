@@ -3,6 +3,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { DestinoService } from 'src/app/services/destino/destino.service';
 import Swal from 'sweetalert2';
+import { environment } from 'src/environments/environment';
 const Toast = Swal.mixin({
   toast: true,
   position: 'top',
@@ -20,6 +21,7 @@ export class DestinoIndexComponent implements OnInit {
 
   destinos:any=[];
   
+  baseURLImagen=environment['apiImagen'].apiUrlImagen;
   //Paginacion
   public currentPage = 1;
   public length = 0;
@@ -32,13 +34,15 @@ export class DestinoIndexComponent implements OnInit {
   public searchTimeout : any;
 
   //detalle del destino
-  public detalle=[];
+   detalle:any=[];
+   modalDetalle:boolean=false;
   
   constructor(private destinoService:DestinoService) { 
-    this.getDestinos();
+    
   }
 
   ngOnInit() {
+    this.getDestinos();
   }
 
   //Parametro: BUsqueda es un termino para buscar
@@ -86,7 +90,17 @@ export class DestinoIndexComponent implements OnInit {
   }
 
   verDetalle(destiono_id){
-    this.destinoService.getDestino(destiono_id).subscribe((data)=>{
+    this.detalle=[];
+    this.destinoService.getDestino(destiono_id).subscribe((data:any)=>{
+      this.detalle=data.destino;
+
+      let galeria=JSON.parse(this.detalle.galeria);
+      this.detalle.galeria=[];
+      galeria.map((img)=>{
+        this.detalle.galeria.push(img)
+      })
+     
+      this.modalDetalle=true;
       console.log(data)
     })
   }

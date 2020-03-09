@@ -107,22 +107,100 @@
 
 <!-- Modal -->
 <div class="modal fade" id="detalleDestino" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+  aria-hidden="true" >
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+    <div class="modal-content" *ngIf="modalDetalle">
+   
+        <div class="modal-body " >
+
+
+          
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header card-header-info">
+                    <div class="row">
+                        <div class="col-md-6">
+                           <h3 class="card-title">{{detalle.nombre}}</h3>
+                        </div>
+                           
+                     </div>
+                     <div class="row">
+                      
+                         <div class="col-md-12  text-center">
+                             <h5 class="card-category">{{detalle.encabezado}}</h5>
+                         </div>
+            
+                      </div>
+                </div>
+
+                <div class="card-body ">
+              
+   
+                    <div class="row">
+       
+                         <div class="col-md-12  text-center">
+                           <div class=" p-5 ">
+                              <p class="m-auto">Lorem Ipsum is simply dummy text of the printing and typesetting industry. {{detalle.descripcion}}</p>
+                           </div>
+                             
+                         </div>
+            
+                      </div>
+                       
+                      <div class="row">
+       
+                          <div class="col-md-12  text-center">
+                              <h5>Galeria</h5>
+                          </div>
+             
+                       </div>
+    
+                       <div class="row">
+       
+                          <div class="col-md-12  text-center">
+                              <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                               
+                                  <div class="carousel-inner">
+                                      
+                                    <div class="carousel-item {{i==0 ? 'active' : ''}}"data-interval="20000" *ngFor="let galeria of detalle.galeria; let i = index;">
+                                      <img [src]="baseURLImagen+galeria" class="d-block w-100" alt="...">
+                                    </div>
+                                    
+                                  </div>
+                                  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span style="color: #000000 !important "  class="sr-only">Previous</span>
+                                  </a>
+                                  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span  style="color: #000000 !important ; "  class="sr-only">Next</span>
+                                  </a>
+                                </div>
+                          </div>
+             
+                       </div>
+              </div>
+
+
+              </div>
+
+
+       
+        </div>
+           
+          
+          <div class="row text-right">
+            <div class="col-md-12"> 
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+              
+          </div>
+         
+        
+        </div>
+       
+ 
+     
     </div>
   </div>
 </div>

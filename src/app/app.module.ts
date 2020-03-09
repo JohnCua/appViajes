@@ -11,10 +11,6 @@ import {
   NavbarPanelComponent,
   SidebarPanelComponent,
   FooterPanelComponent,
-  FullLayoutTravellistComponent,
-  ContentTravelistComponent,
-  NavbarTravelistComponent,
-  FooterTravelistComponent,
   SimpleLayoutComponent
 } from './layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,10 +24,6 @@ const APP_CONTAINERS=[
   NavbarPanelComponent,
   SidebarPanelComponent,
   FooterPanelComponent,
-  FullLayoutTravellistComponent,
-  ContentTravelistComponent,
-  NavbarTravelistComponent,
-  FooterTravelistComponent,
   SimpleLayoutComponent
 ];
 
