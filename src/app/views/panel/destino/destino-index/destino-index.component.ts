@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit,NgZone} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import { DestinoService } from 'src/app/services/destino/destino.service';
 import Swal from 'sweetalert2';
+
+import { DestinoService } from 'src/app/services/destino/destino.service';
 import { environment } from 'src/environments/environment';
 const Toast = Swal.mixin({
   toast: true,
@@ -34,10 +35,10 @@ export class DestinoIndexComponent implements OnInit {
   public searchTimeout : any;
 
   //detalle del destino
-   detalle:any=[];
+   detalle:any;
    modalDetalle:boolean=false;
   
-  constructor(private destinoService:DestinoService) { 
+  constructor(private destinoService:DestinoService, private ngZone:NgZone) { 
     
   }
 
@@ -69,7 +70,6 @@ export class DestinoIndexComponent implements OnInit {
       (datos:any)=>{
         this.destinos=new MatTableDataSource<any>(datos.data);
         this.length = datos.total;
-
         if (reset){
           this.currentPage = 1;
         }
@@ -90,24 +90,24 @@ export class DestinoIndexComponent implements OnInit {
   }
 
   verDetalle(destiono_id){
-    this.detalle=[];
+    delete this.detalle;
     this.destinoService.getDestino(destiono_id).subscribe((data:any)=>{
       this.detalle=data.destino;
-
+      console.log(this.detalle.galeria)
       let galeria=JSON.parse(this.detalle.galeria);
       this.detalle.galeria=[];
+
       galeria.map((img)=>{
         this.detalle.galeria.push(img)
       })
      
       this.modalDetalle=true;
-      console.log(data)
+
     })
   }
 
 
   eliminarDestino(destino_id,indice){
-    console.log(indice)
     let destino =  {
       id:destino_id
     } 
@@ -123,18 +123,19 @@ export class DestinoIndexComponent implements OnInit {
       if (result.value) {
 
         this.destinoService.deleteDestino(destino_id).subscribe((respuesta)=>{
-         
           if(respuesta.success){
 
-            console.log(this.destinos)
-            this.destinos.splice(indice,1);
-
+           // this.ngZone.run(()=>{
+            //  this.destinos.data.splice(indice,1);
+          //   });
+            this.getDestinos();
+          
             Swal.fire(
               'Eliminado!',
               'Datos eliminado exitoso.',
               'success'
             );
-            console.log(this.destinos)
+          
           }
         })
      

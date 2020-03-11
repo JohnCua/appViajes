@@ -1,10 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { DestinoService } from 'src/app/services/destino/destino.service';
-import * as $ from 'jquery';
 import { Router, ActivatedRoute } from '@angular/router';
+import * as $ from 'jquery';
+import Swal from 'sweetalert2';
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top',
+  showConfirmButton: false,
+  timer: 3000
+});
+
+
+import { DestinoService } from 'src/app/services/destino/destino.service';
 import { CategoriaService } from 'src/app/services/categoria/categoria.service';
 import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-destino-create-edit',
   templateUrl: './destino-create-edit.component.html',
@@ -45,10 +55,10 @@ export class DestinoCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.onInitForm();
-    //this.onInitDataSelect();
-    this.filtroofrecimientos();
+    this.selectCategorias();
+
     this.destino_id=this.route.snapshot.params['id'];
-   // this.selectPais();
+
    if(this.destino_id){
      this.editing=true;
      var editingTxt=document.getElementById('txtTitulo');
@@ -75,11 +85,6 @@ export class DestinoCreateEditComponent implements OnInit {
     
   }
 
-  onInitDataSelect(){
-    this.categoriaService.getCategorias().subscribe((data)=>{
-      console.log(data);
-    });
-  }
 
  
   selectPais() {
@@ -138,12 +143,43 @@ export class DestinoCreateEditComponent implements OnInit {
   }
 
 
+  editingDestino(destino_id){
+    this.destinoService.getDestino(destino_id).subscribe((respuesta)=>{
+      this.destinoForm.get('nombre').setValue(respuesta.destino.nombre);
+      this.destinoForm.get('encabezado').setValue(respuesta.destino.encabezado);
+      this.destinoForm.get('descripcion').setValue(respuesta.destino.descripcion);
+      this.destinoForm.get('galeria').setValue(respuesta.destino.galeria);
+
+      let galeria:[]=JSON.parse(respuesta.destino.galeria);
+      
+      if(galeria.length>0){
+
+        galeria.map((img,index)=>{
+          let objeto={base_64: '', extension: '',nombre: ''};
+          objeto.nombre='galeria almacenado '+(index+1);
+          this.filesSinGuardar.push(objeto);
+        });
+        console.log(this.filesSinGuardar)
+        this.progress=100;
+        this.guardarArchivos();
+    
+      }
+     
+      this.destinoForm.get('highlights').setValue(respuesta.destino.highlights);
+      this.destinoForm.get('mas').setValue(respuesta.destino.mas);
+      this.selectPais();
+      this.destinoForm.get('pais_id').setValue(1);
+     
+      this.destinoForm.get('lugar_id').setValue(respuesta.destino.lugar_id);
+      this.destinoForm.get('categoria_id').setValue(respuesta.categorias)
+      console.log(respuesta);
+    });
+  }
 
 
-  GuardarArchivos(){
+  guardarArchivos(){
    this.galeria=this.filesSinGuardar;
    this.destinoForm.get('galeria').setValue(this.galeria);
-   console.log(this.filesSinGuardar);
   }
 
   createditDestino(){
@@ -160,13 +196,9 @@ export class DestinoCreateEditComponent implements OnInit {
     }).toArray();
 
    
-
-   
     this.destinoForm.get('lugar_id').setValue(parseInt(this.destinoForm.get('lugar_id').value));
-  
-    
+      
     this.destinoService.createDestino(this.destinoForm.value).subscribe((respuesta)=>{
-      console.log(respuesta);
       if(respuesta.id){
         if(categorias.length){
           categorias.map((categoria)=>{
@@ -177,6 +209,11 @@ export class DestinoCreateEditComponent implements OnInit {
             console.log('objeto a envia',objeto);
            this.categoriaService.createCategoriaDestino(objeto).subscribe((respuesta)=>{
               console.log(respuesta)
+              if(respuesta.success){
+                setTimeout(() => {
+                  this.router.navigate(['/panel/destino']);
+                }, 1000);
+              }
            });
         })
         }
@@ -191,34 +228,28 @@ export class DestinoCreateEditComponent implements OnInit {
 
 
   actualizarDestino(){
-    this.destinoForm.get('lugar_id').setValue(parseInt(this.destinoForm.get('lugar_id').value))
+    this.destinoForm.get('lugar_id').setValue(parseInt(this.destinoForm.get('lugar_id').value));
+    console.log(this.destinoForm.value);
     this.destinoService.updateDestino(this.destino_id,this.destinoForm.value).subscribe((respuesta)=>{
-      console.log(respuesta);
+      //console.log(respuesta);
+      if(respuesta.success){
+        Swal.fire(
+          'Actualizacion!',
+          'Exitoso.',
+          'success'
+        );
+        setTimeout(() => {
+          this.router.navigate(['/panel/destino']);
+        }, 1000);
+        
+      }
     },(error)=>{
       console.log(error);
     })
 
   }
 
-  editingDestino(destino_id){
-    this.destinoService.getDestino(destino_id).subscribe((respuesta)=>{
-      this.destinoForm.get('nombre').setValue(respuesta.destino.nombre);
-      this.destinoForm.get('encabezado').setValue(respuesta.destino.encabezado);
-      this.destinoForm.get('descripcion').setValue(respuesta.destino.descripcion);
-      this.destinoForm.get('galeria').setValue(respuesta.destino.galeria);
-      respuesta.destino.galeria.map((img)=>{
-        this.filesSinGuardar.push(img);
-      })
 
-      this.destinoForm.get('highlights').setValue(respuesta.destino.highlights);
-      this.destinoForm.get('mas').setValue(respuesta.destino.mas);
-      this.selectPais();
-      this.destinoForm.get('pais_id').setValue(1);
-      this.destinoForm.get('lugar_id').setValue(respuesta.destino.lugar_id);
-      
-      console.log(respuesta);
-    });
-  }
 
   //funcion para cancelar el envio de archivo
   removeFile(index){
@@ -230,7 +261,7 @@ export class DestinoCreateEditComponent implements OnInit {
     
   }
 
-  filtroofrecimientos(){
+  selectCategorias(){
     $(document).ready( ()=> {
       const fullUrl=`${environment.api['apiUrl']}categoria`;
       $('#selectCategoria').select2({
@@ -265,7 +296,7 @@ export class DestinoCreateEditComponent implements OnInit {
               cache: true,
               delay: 250
           },
-          placeholder: 'Ofrecimiento',
+          placeholder: 'Categoria',
           minimumInputLength : 0,
           multiple: true
       });
