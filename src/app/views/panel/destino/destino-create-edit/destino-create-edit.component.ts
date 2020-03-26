@@ -153,13 +153,14 @@ export class DestinoCreateEditComponent implements OnInit {
       let galeria:[]=JSON.parse(respuesta.destino.galeria);
       
       if(galeria.length>0){
+        // AA= nombre Actual Almacenado
 
         galeria.map((img,index)=>{
-          let objeto={base_64: '', extension: '',nombre: ''};
+          let objeto={base_64: '', extension: '',nombre: '', nombreAA:''};
           objeto.nombre='galeria almacenado '+(index+1);
+          objeto.nombreAA=img;
           this.filesSinGuardar.push(objeto);
         });
-        console.log(this.filesSinGuardar)
         this.progress=100;
         this.guardarArchivos();
     
@@ -171,8 +172,16 @@ export class DestinoCreateEditComponent implements OnInit {
       this.destinoForm.get('pais_id').setValue(1);
      
       this.destinoForm.get('lugar_id').setValue(respuesta.destino.lugar_id);
+
+      const tags={};
+      const categorias=respuesta.categorias;
+      categorias.map((categoria,b)=>{
+        const x = (b+1).toString();
+        tags[x] =categoria.nombre;
+      });
+      $('#selectCategoria').html(this.convertirObjetoASelectOpcions(tags)).trigger('change');
       this.destinoForm.get('categoria_id').setValue(respuesta.categorias)
-      console.log(respuesta);
+
     });
   }
 
@@ -180,6 +189,14 @@ export class DestinoCreateEditComponent implements OnInit {
   guardarArchivos(){
    this.galeria=this.filesSinGuardar;
    this.destinoForm.get('galeria').setValue(this.galeria);
+  }
+
+  convertirObjetoASelectOpcions(objetos){
+    let htmlTags='';
+    for (let tag in objetos) {
+     htmlTags += '<option value="'+ tag + '"selected="selected">'+ objetos[tag] + '</option>'; 
+    }
+    return htmlTags;
   }
 
   createditDestino(){
@@ -199,6 +216,7 @@ export class DestinoCreateEditComponent implements OnInit {
     this.destinoForm.get('lugar_id').setValue(parseInt(this.destinoForm.get('lugar_id').value));
       
     this.destinoService.createDestino(this.destinoForm.value).subscribe((respuesta)=>{
+
       if(respuesta.id){
         if(categorias.length){
           categorias.map((categoria)=>{
@@ -206,10 +224,15 @@ export class DestinoCreateEditComponent implements OnInit {
               categoria_id:parseInt(categoria.toString()),
               destino_id:parseInt(respuesta.id)
             }
-            console.log('objeto a envia',objeto);
+           
            this.categoriaService.createCategoriaDestino(objeto).subscribe((respuesta)=>{
-              console.log(respuesta)
+            
               if(respuesta.success){
+                Swal.fire(
+                  'Almacenamiento!',
+                  'Exitoso.',
+                  'success'
+                );
                 setTimeout(() => {
                   this.router.navigate(['/panel/destino']);
                 }, 1000);
@@ -229,9 +252,9 @@ export class DestinoCreateEditComponent implements OnInit {
 
   actualizarDestino(){
     this.destinoForm.get('lugar_id').setValue(parseInt(this.destinoForm.get('lugar_id').value));
-    console.log(this.destinoForm.value);
+  
     this.destinoService.updateDestino(this.destino_id,this.destinoForm.value).subscribe((respuesta)=>{
-      //console.log(respuesta);
+    
       if(respuesta.success){
         Swal.fire(
           'Actualizacion!',
