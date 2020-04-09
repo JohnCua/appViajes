@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="col-md-6 text-right">
-                        <button [routerLink]="['/panel/destino/createdit']" mat-raised-button type="button" matTooltip="Nuevo tour" [matTooltipPosition]="'above'" class="btn btn-secondary btn-link  btn-just-icon ">
+                        <button [routerLink]="['createdit']" mat-raised-button type="button" matTooltip="Nuevo tour" [matTooltipPosition]="'above'" class="btn btn-secondary btn-link  btn-just-icon ">
               <i class="fas fa-1x fa-plus-square"></i>
             </button>
                     </div>
@@ -88,7 +88,7 @@
 </div>
 
 
-<!-- Modal -->
+<!-- Modal Detalle-->
 <div class="modal fade" id="detalleDestino" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content" *ngIf="detalle">
@@ -158,3 +158,5 @@
         </div>
     </div>
 </div>
+
+<!--End modal Detalle-->

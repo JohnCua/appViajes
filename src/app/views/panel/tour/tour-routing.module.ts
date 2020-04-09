@@ -23,6 +23,13 @@ const routes:Routes=[
         data:{
           title: 'Crear Tour'
         }
+      },
+      {
+        path: 'createdit/:id',
+        component:TourCreateEditComponent,
+        data: {
+          title: 'Actualizar destino'
+        }
       }
     ]
   }

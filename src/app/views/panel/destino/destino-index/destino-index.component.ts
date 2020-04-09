@@ -36,7 +36,6 @@ export class DestinoIndexComponent implements OnInit {
 
   //detalle del destino
    detalle:any;
-   modalDetalle:boolean=false;
   
   constructor(private destinoService:DestinoService, private ngZone:NgZone) { 
     
@@ -100,8 +99,6 @@ export class DestinoIndexComponent implements OnInit {
       galeria.map((img)=>{
         this.detalle.galeria.push(img)
       })
-     
-      this.modalDetalle=true;
 
     })
   }
