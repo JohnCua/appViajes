@@ -5,11 +5,11 @@
 export const environment = {
   production: false,
 
-  api:{
-    apiUrl: 'http://127.0.0.1:8000/api/'
+  api: {
+    apiUrl: 'http://18.191.167.144/api/'
   },
   apiImagen: {
-    apiUrlImagen: 'http://127.0.0.1:8000/storage/',
+    apiUrlImagen: 'http://18.191.167.144/storage/',
   }
  };
 

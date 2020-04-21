@@ -1,38 +1,37 @@
 <div class="row " style="align-content: center; align-items: center; align-self: center;">
-
     <div class="col-md-8 ">
         <div class="card">
             <div class="card-header card-header-info">
                 <h4 id="txtTitulo" class="card-title">Registro de nuevo destino</h4>
-
             </div>
             <div class="card-body">
-                <form [(formGroup)]="TourForm">
+                <form [(formGroup)]="tourForm">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputPassword4">Codigo</label>
-                            <input type="text" class="form-control" formControlName="codigo" id="inputPassword4">
+                            <input type="text" class="form-control" formControlName="codigo">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputPassword4">Activo</label>
-                            <select class="form-control" formControlName="lugar_id" id="exampleFormControlSelect2">
-                <option selected disabled>Activo</option>
-                <option value="1">Si</option>
-                <option value="0">No</option>
-              </select>
+                            <select class="form-control" formControlName="activo" id="exampleFormControlSelect1">
+                            <option *ngFor="let item of activo" value="{{item.id}}">{{item.activo}}</option>
+                        </select>
                         </div>
-
                     </div>
 
                     <div class="form-row">
 
                         <div class="form-group col-md-6">
                             <label for="inputEmail4">Nombre</label>
-                            <input type="text" class="form-control" formControlName="nombre" id="inputEmail4">
+                            <input type="text" class="form-control" formControlName="nombre">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputPassword4">Estado</label>
-                            <input type="text" class="form-control" formControlName="estado" id="inputPassword4">
+                            <select class="form-control" formControlName="estado">
+                                <option value="{{item.nombre}}" *ngFor="let item of estado">
+                                  {{item.nombre}}
+                                </option>
+                              </select>
                         </div>
 
                     </div>
@@ -40,63 +39,76 @@
 
                         <div class="form-group col-md-6">
                             <label for="inputEmail4">Idioma</label>
-                            <input type="text" class="form-control" formControlName="nombre" id="inputEmail4">
+                            <input type="text" class="form-control" formControlName="idioma">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputPassword4">Cantidad</label>
-                            <input type="text" class="form-control" formControlName="estado" id="inputPassword4">
+                            <input type="text" class="form-control" formControlName="cantidad">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-row">
+                        <div class="form-group col-md">
+                            <label>Descripcion</label>
+                            <textarea class="form-control" formControlName="descripcion" placeholder="Ingrese una breve descripcion"></textarea>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="form-row text-center">
+                        <div class="form-group text-center col-md-6">
+                            <button style="width: 200px;" type="button" class="btn btn-default modal-title" data-toggle="modal" data-target="#ModaFilePDF" (click)="SubirPDFModal()">
+                                <span> <i class="fas fa-upload"></i> Subir PDF</span>
+                            </button>
+                        </div>
+
+                        <div class="form-group text-center col-md-6">
+                            <button style="width: 200px;" type="button" class="btn btn-default modal-title" data-toggle="modal" data-target="#ModaFileFoto" (click)="SubirFotoModal()">
+                            <span> <i class="fas fa-upload"></i> Subir Foto</span>
+                            </button>
                         </div>
 
                     </div>
-                    <br>
-                    <div class="form-group text-center">
-                        <button style="width: 200px;" type="button" class="btn btn-default modal-title" data-toggle="modal" data-target="#ModaFile" (click)="SubirArchivosModal()">
-              <span> <i class="fas fa-upload"></i> Subir PDF</span>
-            </button>
-                    </div>
-
-
 
                     <br>
-
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputCity">Fecha inicio</label>
-                            <input class="form-control" type="date" formControlName="inicio" id="example-date-input">
+                            <input class="form-control" type="date" formControlName="inicio">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputCity">Fecha final</label>
-                            <input class="form-control" type="date" formControlName="final" id="example-date-input">
+                            <input class="form-control" type="date" formControlName="final">
                         </div>
-
                     </div>
-
-
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputPassword4">Fecha fija</label>
-                            <input class="form-control" type="date" formControlName="final" id="example-date-input">
+                            <input class="form-control" type="date" formControlName="fecha_fija">
                         </div>
-
                         <div class="form-group col-md-6">
                             <label for="inputEmail4">Duracion</label>
-                            <input type="text" class="form-control" formControlName="nombre" id="inputEmail4">
+                            <input type="text" class="form-control" formControlName="duracion">
                         </div>
-
-
                     </div>
-
                     <br>
-                    <div class="form-group text-center">
+
+                    <div class="form-group  text-center">
                         <label>Destino</label>
-                        <select name="Categoria[]" id="selectCategoria" class="form-control" style="width:100%">
-            </select>
+                        <select name="Destino[]" id="selectDestino" class="form-control" style="width:100%">
+                                 </select>
                     </div>
 
-                    <br>
+                    <div class="form-group  text-center">
+                        <label>Etiqueta</label>
+                        <select name="Etiqueta[]" id="selectEtiqueta" class="form-control" style="width:100%">
+                                     </select>
+                    </div>
 
-                    <button (click)="createditDestino()" ctype="submit" class="btn btn-primary pull-right">Guardar</button>
+
+                    <br>
+                    <button (click)="createditTour()" ctype="submit" class="btn btn-primary pull-right">Guardar</button>
                     <div class="clearfix"></div>
                 </form>
             </div>
@@ -107,8 +119,8 @@
 
 
 
-<!--modal para subir galeria-->
-<div class="modal fade" id="ModaFile" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--modal para subir pdf-->
+<div class="modal fade" id="ModaFilePDF" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <!--contendio-->
         <div class="modal-content" style="border-radius: 15px !important;">
@@ -121,36 +133,35 @@
                         <br>
                         <div class="col-md-12 m-b-30">
                             <div class="titulo2">
-                                Adjuntar achivos
+                                Adjuntar PDF
                             </div>
                         </div>
-                        <ngx-dropzone #dropzone id="dropzone" label="Arrastrar archivos o dar click" [accept]="'image/png, image/jpg, image/jpeg, image/PNG'" [multiple]="true" [showPreviews]="true" class="custom-dropzone" (filesAdded)="onFilesAdded($event,dropzone)">
+                        <ngx-dropzone #dropzone id="dropzone" label="Arrastrar archivos o dar click" [accept]="'application/pdf'" [multiple]="false" [showPreviews]="true" class="custom-dropzone" (filesAdded)="onFilesAddedPDF($event,dropzone)">
                         </ngx-dropzone>
                         <br>
-                        <div class="col-md-12 m-b-30" *ngIf="filesSinGuardar.length>0">
-                            <h5>Galeria</h5>
+                        <div class="col-md-12 m-b-30" *ngIf="pdfSinGuardar.length>0">
+                            <h5>PDF</h5>
                             <div class="table-responsive">
                                 <table class="table align-td-middle table-card">
                                     <thead>
                                         <tr>
                                             <th>Nombre</th>
                                             <th>Progreso</th>
-
                                             <th>Accion</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let file of filesSinGuardar ; let i =index">
+                                        <tr *ngFor="let file of pdfSinGuardar ; let i =index">
                                             <td>{{file.nombre}}</td>
                                             <td>
                                                 <div class="progress" style="margin-bottom: 0;">
-                                                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': progress + '%' }"></div>
+                                                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': progresspdf + '%' }"></div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(i)">
-                          <span><i class="fas fa-trash-alt"></i></span>
-                        </button>
+                                                <button type="button" class="btn btn-danger btn-xs" (click)="removePdf(i)">
+                                                <span><i class="fas fa-trash-alt"></i></span>
+                                                </button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -159,10 +170,10 @@
                         </div>
 
                         <div class="form-group col-md-8">
-                            <button type="button" class="btn btn-secondary" style="background-color: #92929D;" data-dismiss="modal" (click)="cancelarArchivos()" (click)="dropzone.reset()">
-                Cancelar
-              </button>
-                            <button class="btn btn-primary" style="background-color: #0062FF;" [disabled]="!(filesSinGuardar.length>0)" data-dismiss="modal" (click)="guardarArchivos()">Guardar</button>
+                            <button type="button" class="btn btn-secondary" style="background-color: #92929D;" data-dismiss="modal" (click)="cancelarPdf()" (click)="dropzone.reset()">
+                                Cancelar
+                            </button>
+                            <button class="btn btn-primary" style="background-color: #0062FF;" [disabled]="!(pdfSinGuardar.length>0)" data-dismiss="modal" (click)="guardarPdf()">Guardar</button>
                         </div>
                     </div>
                     <!--end Div -->
@@ -171,4 +182,70 @@
         </div>
     </div>
 </div>
-<!--End Modal para subir archivos -->
+<!--End Modal para subir pdf -->
+
+
+<!--modal para subir foto-->
+<div class="modal fade" id="ModaFileFoto" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <!--contendio-->
+        <div class="modal-content" style="border-radius: 15px !important;">
+            <!--end contendio-->
+            <div class="container-fluid ">
+                <div class="row ">
+
+                    <!--Div -->
+                    <div class="col-md-12 d-none d-md-block bg-cover rounded-left">
+                        <br>
+                        <div class="col-md-12 m-b-30">
+                            <div class="titulo2">
+                                Adjuntar Foto
+                            </div>
+                        </div>
+                        <ngx-dropzone #dropzone id="dropzone" label="Arrastrar archivos o dar click" [accept]="'image/png, image/jpg, image/jpeg, image/PNG'" [multiple]="false" [showPreviews]="true" class="custom-dropzone" (filesAdded)="onFilesAddedFoto($event,dropzone)">
+                        </ngx-dropzone>
+                        <br>
+                        <div class="col-md-12 m-b-30" *ngIf="fotoSinGuardar.length>0">
+                            <h5>Foto</h5>
+                            <div class="table-responsive">
+                                <table class="table align-td-middle table-card">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Progreso</th>
+                                            <th>Accion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let file of fotoSinGuardar ; let i =index">
+                                            <td>{{file.nombre}}</td>
+                                            <td>
+                                                <div class="progress" style="margin-bottom: 0;">
+                                                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': progressfoto + '%' }"></div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-xs" (click)="removeFoto(i)">
+                                                    <span><i class="fas fa-trash-alt"></i></span>
+                                                    </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-8">
+                            <button type="button" class="btn btn-secondary" style="background-color: #92929D;" data-dismiss="modal" (click)="cancelarFoto()" (click)="dropzone.reset()">
+                                    Cancelar
+                                </button>
+                            <button class="btn btn-primary" style="background-color: #0062FF;" [disabled]="!(fotoSinGuardar.length>0)" data-dismiss="modal" (click)="guardarFoto()">Guardar</button>
+                        </div>
+                    </div>
+                    <!--end Div -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Modal para subir foto -->

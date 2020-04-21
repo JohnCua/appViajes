@@ -11,6 +11,7 @@ const Toast = Swal.mixin({
   showConfirmButton: false,
   timer: 3000
 });
+
 @Component({
   selector: 'app-destino-index',
   templateUrl: './destino-index.component.html',
@@ -18,99 +19,100 @@ const Toast = Swal.mixin({
 })
 export class DestinoIndexComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'nombre', 'encabezado', 'lugar','valoracion', 'opciones'];
+  displayedColumns: string[] = ['id', 'nombre', 'encabezado', 'lugar', 'valoracion', 'opciones'];
 
-  destinos:any=[];
+  destinos: any = [];
+
   
-  baseURLImagen=environment['apiImagen'].apiUrlImagen;
-  //Paginacion
+  private baseURL = environment['api'].apiUrl;
+  baseURLImagen = environment['apiImagen'].apiUrlImagen;
+  // Paginacion
   public currentPage = 1;
   public length = 0;
   public pageSize = 5;
-  public sortBy = "id";
-  public sortOrder = "asc";
+  public sortBy = 'id';
+  public sortOrder = 'asc';
 
-  //Busqueda
+  // Busqueda
   public filterQuery = '';
-  public searchTimeout : any;
+  public searchTimeout: any;
 
-  //detalle del destino
-   detalle:any;
-  
-  constructor(private destinoService:DestinoService, private ngZone:NgZone) { 
-    
+  // detalle del destino
+  detalle: any;
+
+  constructor(
+    private destinoService: DestinoService,
+    private ngZone: NgZone) {
+
   }
 
   ngOnInit() {
     this.getDestinos();
   }
 
-  //Parametro: BUsqueda es un termino para buscar
-  //Parametro: Reset si hay que volver a la primera pagina
-  getDestinos(busqueda? : any, reset? : boolean){
-    //Guardamos la pagina actual
-    var page = this.currentPage;    
-    
-    //Si debemos volver a la primer pagina
-    if(reset) {
-        page = 1;
+  // Parametro: BUsqueda es un termino para buscar
+  // Parametro: Reset si hay que volver a la primera pagina
+  getDestinos(busqueda ?: any, reset ?: boolean) {
+    // Guardamos la pagina actual
+    let page = this.currentPage;
+
+    // Si debemos volver a la primer pagina
+    if (reset) {
+      page = 1;
     }
 
-    //Filtros del destino
-    let filtro =  {
+    // Filtros del destino
+    let filtro = {
       page: page,
       many: this.pageSize,
       sort_by: this.sortBy,
       direction: this.sortOrder,
       ...busqueda
-    }    
+    };
 
     this.destinoService.getDestinos(filtro).subscribe(
-      (datos:any)=>{
-        this.destinos=new MatTableDataSource<any>(datos.data);
+      (datos: any) => {
+        this.destinos = new MatTableDataSource < any > (datos.data);
         this.length = datos.total;
-        if (reset){
+        if (reset) {
           this.currentPage = 1;
         }
+      });
+  }
+
+  // Cambio de pagina y de cantidad de elementos por pagina
+  cambioPagina(event) {
+    this.currentPage = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    if (this.filterQuery !== '') {
+      this.getDestinos({
+        nombre: this.filterQuery
+      });
+    } else {
+      this.getDestinos();
+    }
+  }
+
+  verDetalle(destiono_id) {
+    delete this.detalle;
+    this.destinoService.getDestino(destiono_id).subscribe((data: any) => {
+      this.detalle = data.destino;
+      const galeria = JSON.parse(this.detalle.galeria);
+      this.detalle.galeria = [];
+      galeria.map((img) => {
+        this.detalle.galeria.push(img);
+      });
     });
   }
 
-  //Cambio de pagina y de cantidad de elementos por pagina
-    cambioPagina(event){
-      this.currentPage = event.pageIndex+1;
-      this.pageSize = event.pageSize;
 
-      if (this.filterQuery !== '') {
-        this.getDestinos({nombre : this.filterQuery});
-      }
-      else {
-        this.getDestinos();
-      }
-  }
-
-  verDetalle(destiono_id){
-    delete this.detalle;
-    this.destinoService.getDestino(destiono_id).subscribe((data:any)=>{
-      this.detalle=data.destino;
-      console.log(this.detalle.galeria)
-      let galeria=JSON.parse(this.detalle.galeria);
-      this.detalle.galeria=[];
-
-      galeria.map((img)=>{
-        this.detalle.galeria.push(img)
-      })
-
-    })
-  }
-
-
-  eliminarDestino(destino_id,indice){
-    let destino =  {
-      id:destino_id
-    } 
+  eliminarDestino(destino_id, indice) {
+    const destino = {
+      id: destino_id
+    };
     Swal.fire({
       title: 'Esta seguro?',
-      text: "No se podran revertir los cambios!",
+      text: 'No se podran revertir los cambios!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -118,29 +120,22 @@ export class DestinoIndexComponent implements OnInit {
       confirmButtonText: 'Si, eliminar!!'
     }).then((result) => {
       if (result.value) {
-
-        this.destinoService.deleteDestino(destino_id).subscribe((respuesta)=>{
-          if(respuesta.success){
-
-           // this.ngZone.run(()=>{
+        this.destinoService.deleteDestino(destino_id).subscribe((respuesta) => {
+          if (respuesta.success) {
+            // this.ngZone.run(()=>{
             //  this.destinos.data.splice(indice,1);
-          //   });
+            //   });
             this.getDestinos();
-          
             Swal.fire(
               'Eliminado!',
               'Datos eliminado exitoso.',
               'success'
             );
-          
-          }
-        })
-     
-      }
-    })
 
-  
+          }
+        });
+      }
+    });
   }
 
 }
-

@@ -1,10 +1,8 @@
 <div class="row " style="align-content: center; align-items: center; align-self: center;">
-
     <div class="col-md-8 ">
         <div class="card">
             <div class="card-header card-header-info">
                 <h4 id="txtTitulo" class="card-title">Registro de nuevo destino</h4>
-
             </div>
             <div class="card-body">
                 <form [(formGroup)]="destinoForm">
@@ -18,8 +16,6 @@
                             <input type="text" class="form-control" formControlName="encabezado" id="inputPassword4">
                         </div>
                     </div>
-
-
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputCity">Highlights</label>
@@ -31,14 +27,10 @@
                         </div>
 
                     </div>
-
-
                     <div class="form-row">
                         <div class="form-group col-md">
                             <label>Descripcion</label>
-
-                            <textarea class="form-control" formControlName="descripcion" placeholder="Lamborghini "></textarea>
-
+                            <textarea class="form-control" formControlName="descripcion" placeholder="Ingrese una breve descripcion"></textarea>
                         </div>
                     </div>
                     <br>
@@ -47,7 +39,6 @@
               <span> <i class="fas fa-upload"></i> Galeria</span>
             </button>
                     </div>
-
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label>Pais</label>
@@ -65,22 +56,14 @@
                 <option value="{{lugar.id}}" *ngFor="let lugar of lugares">{{lugar.nombre}}</option>
               </select>
                         </div>
-
                     </div>
-
                     <br>
                     <div class="form-group text-center">
                         <label>Categoria</label>
                         <select multiple name="Categoria[]" id="selectCategoria" class="select2" style="width:100%">
-              </select>
+            </select>
                     </div>
-
-
-
-
-
                     <br>
-
                     <button (click)="createditDestino()" ctype="submit" class="btn btn-primary pull-right">Guardar</button>
                     <div class="clearfix"></div>
                 </form>

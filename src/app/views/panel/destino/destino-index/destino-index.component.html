@@ -61,8 +61,8 @@
                             <th class="text-warning" mat-header-cell *matHeaderCellDef> Opciones </th>
                             <td mat-cell class="td-actions " *matCellDef="let element; let i=index">
                                 <button mat-raised-button type="button" matTooltip="Eliminar destino" (click)="eliminarDestino(element.id,i)" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                  <i class="material-icons">close</i>
-                </button>
+                                <i class="material-icons">close</i>
+                                </button>
                                 <a mat-raised-button [routerLink]="['createdit/',element.id]" type="button" matTooltip="Actualizar datos" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">edit</i>
                                 </a>

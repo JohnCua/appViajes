@@ -7,33 +7,35 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DestinoService extends MetodosBase {
 
-  constructor(private http:HttpClient) { super(http); }
-
-  getDestinos(filtro:any){
-    return this.get('destino',filtro);
+  constructor(private http: HttpClient) {
+    super(http);
   }
 
-  getDestino(destino_id){
+  getDestinos(filtro: any) {
+    return this.get('destino', filtro);
+  }
+
+  getDestino(destino_id) {
     return this.get(`destino/${destino_id}`);
   }
 
-  createDestino(data:any){
-    return this.post(`destino`,data);
+  createDestino(data: any) {
+    return this.post(`destino`, data);
   }
 
-  updateDestino(destino_id,data){
-    return this.put(`destino/${destino_id}`,data);
+  updateDestino(destino_id, data) {
+    return this.put(`destino/${destino_id}`, data);
   }
 
-  getPaises(pais_id){
+  getPaises(pais_id) {
     return this.get(`pais/${pais_id}`);
   }
 
-  getLugaresSelect(filter:any){
-    return this.get(`lugar`,filter);
+  getLugaresSelect(filter: any) {
+    return this.get(`lugar`, filter);
   }
 
-  deleteDestino(destino_id:any){
+  deleteDestino(destino_id: any) {
     return this.delete(`destino/${destino_id}`);
   }
 

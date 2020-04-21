@@ -5,15 +5,15 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriaService extends MetodosBase {
+export class EtiquetaService extends MetodosBase {
 
   constructor( private http: HttpClient) { super(http); }
 
-  getCategorias() {
-    return this.get('categoria');
+  getEtiquetas() {
+    return this.get('etiqueta');
   }
 
-  createCategoriaDestino(data: any){
-    return this.post(`categoria/{categoria}/destino`, data);
+  createEtiquetaTour(data: any) {
+    return this.post(`etiqueta/tour`, data);
   }
 }

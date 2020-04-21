@@ -27,45 +27,30 @@
             <div class="card-body table-responsive">
                 <table class="table table-hover">
                     <thead class="text-warning">
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Salary</th>
-                        <th>Country</th>
-                        <th>Acciones</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Destino</th>
+                        <th>Lugar</th>
+                        <th>Activo</th>
+                        <th>Opciones</th>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Dakota Rice</td>
-                            <td>$36,738</td>
-                            <td>Niger</td>
+                        <tr *ngFor="let tour of tours">
+                            <td>{{tour.nombre}}</td>
+                            <td>{{tour.descripcion}}</td>
+                            <td>{{tour.destino}}</td>
+                            <td>{{tour.lugar}}</td>
+                            <td>{{tour.activo ? 'Si' : 'No'}}</td>
                             <td class="td-actions ">
-                                <a mat-raised-button [routerLink]="['createdit/',element.id]" type="button" matTooltip="Actualizar datos" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                <a mat-raised-button [routerLink]="['tours/createdit/',tour.id]" type="button" matTooltip="Actualizar datos" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">edit</i>
                                 </a>
-                                <a mat-raised-button type="button" (click)="verDetalleTour(element.id)" data-toggle="modal" data-target="#detalleDestino" matTooltip="Ver detalle" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                <a mat-raised-button type="button" (click)="verDetalleTour(tour.id)" data-toggle="modal" data-target="#detalleDestino" matTooltip="Ver detalle" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">remove_red_eye</i>
                                 </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Minerva Hooper</td>
-                            <td>$23,789</td>
-                            <td>Curaçao</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Sage Rodriguez</td>
-                            <td>$56,142</td>
-                            <td>Netherlands</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Philip Chaney</td>
-                            <td>$38,735</td>
-                            <td>Korea, South</td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -84,7 +69,7 @@
                     </div>
 
                     <div class="col-md-6 text-right">
-                        <button [routerLink]="['/panel/destino/createdit']" mat-raised-button type="button" matTooltip="Nuevo tour" [matTooltipPosition]="'above'" class="btn btn-secondary btn-link  btn-just-icon ">
+                        <button [routerLink]="['destino/createdit']" mat-raised-button type="button" matTooltip="Nuevo tour" [matTooltipPosition]="'above'" class="btn btn-secondary btn-link  btn-just-icon ">
               <i class="fas fa-1x fa-plus-square"></i>
             </button>
                     </div>
@@ -94,45 +79,28 @@
             <div class="card-body table-responsive">
                 <table class="table table-hover">
                     <thead class="text-warning">
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Salary</th>
-                        <th>Country</th>
-                        <th>Acciones</th>
+                        <th>Nombre</th>
+                        <th>Encabezado</th>
+                        <th>Lugar</th>
+                        <th>Valoracion</th>
+                        <th>Opciones</th>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Dakota Rice</td>
-                            <td>$36,738</td>
-                            <td>Niger</td>
+                        <tr *ngFor="let destino of destinos">
+                            <td>{{destino.nombre}}</td>
+                            <td>{{destino.encabezado}}</td>
+                            <td>{{destino.lugar}}</td>
+                            <td>{{destino.valoracion}}</td>
                             <td class="td-actions ">
-                                <a mat-raised-button [routerLink]="['createdit/',element.id]" type="button" matTooltip="Actualizar datos" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                <a mat-raised-button [routerLink]="['createdit/',destino.id]" type="button" matTooltip="Actualizar datos" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">edit</i>
                                 </a>
-                                <a mat-raised-button type="button" (click)="verDetalleDestino(element.id)" data-toggle="modal" data-target="#detalleDestino" matTooltip="Ver detalle" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                <a mat-raised-button type="button" (click)="verDetalleDestino(destino.id)" data-toggle="modal" data-target="#detalleDestino" matTooltip="Ver detalle" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">remove_red_eye</i>
                                 </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Minerva Hooper</td>
-                            <td>$23,789</td>
-                            <td>Curaçao</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Sage Rodriguez</td>
-                            <td>$56,142</td>
-                            <td>Netherlands</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Philip Chaney</td>
-                            <td>$38,735</td>
-                            <td>Korea, South</td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>
