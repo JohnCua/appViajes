@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { PagesModule } from './views/pages/pages.module';
 import { PanelModule } from './views/panel/panel.module';
-
 
 import {
   FullLayoutPanelComponent,
@@ -11,15 +9,12 @@ import {
 } from './layout';
 
 
-
 const routes: Routes = [
-
   {
     path: '',
     redirectTo: 'panel',
     pathMatch: 'full',
   },
-
     // para mostras simple-layout
   {
     path: '',
@@ -27,12 +22,10 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: ()=>PagesModule,
+        loadChildren: () => PagesModule,
       },
     ]
   },
-
-
   // ruta para joblist general
   {
     path: '',
@@ -43,11 +36,10 @@ const routes: Routes = [
     children: [
       {
         path: 'panel',
-        loadChildren: ()=>PanelModule,
+        loadChildren: () => PanelModule,
       }
     ]
   },
-
 {
   path: '**',
   redirectTo: '404',

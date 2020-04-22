@@ -5,32 +5,28 @@ import { TourModule } from './tour/tour.module';
 import { DestinoModule } from './destino/destino.module';
 import { InicioModule } from './inicio/inicio.module';
 
-
-
-const routes:Routes= [
+const routes: Routes = [
   {
-  path:'', 
+  path: '',
   children: [
     {
       path: 'inicio',
-      loadChildren: ()=>InicioModule
+      loadChildren: () => InicioModule
     },
     {
       path: 'destino',
-      loadChildren: ()=>DestinoModule
+      loadChildren: () => DestinoModule
     },
     {
-      path: 'tours',
-      loadChildren: ()=>TourModule
+      path: 'tour',
+      loadChildren: () => TourModule
     },
- 
     {
       path: '', redirectTo: 'inicio', pathMatch: 'full'
     }
-    
   ]
 }
-]
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

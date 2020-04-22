@@ -99,18 +99,14 @@ export class DestinoCreateEditComponent implements OnInit {
     });
   }
 
-
-
   SubirArchivosModal() {
     this.files.link = [];
   }
-
 
   archivoDescripcion(i) {
     const descripcion = $(`textarea#descripcion${i}`).val();
     this.files.link[i].descripcion = descripcion;
   }
-
 
   onFilesAdded(files: File[], dropzone) {
     files.forEach(file => {
@@ -118,7 +114,8 @@ export class DestinoCreateEditComponent implements OnInit {
       const objeto = {
         base_64: '',
         extension: '',
-        nombre: ''
+        nombre: '',
+        nombreAA: 'nuevo'
       };
       let base64string = '';
       this.progress = 0;
@@ -163,7 +160,7 @@ export class DestinoCreateEditComponent implements OnInit {
       this.destinoForm.get('galeria').setValue(respuesta.destino.galeria);
 
       const galeria: [] = JSON.parse(respuesta.destino.galeria);
-
+      console.log(galeria)
       if (galeria !== null && galeria.length) {
         // AA= nombre Actual Almacenado
 
@@ -226,27 +223,28 @@ export class DestinoCreateEditComponent implements OnInit {
 
     this.destinoForm.get('lugar_id').setValue(Number(this.destinoForm.get('lugar_id').value));
 
+    if (this.destinoForm.invalid) {
+      return 0;
+    }
+    console.log(this.destinoForm.value)
     this.destinoService.createDestino(this.destinoForm.value).subscribe((respuesta) => {
       if (respuesta.id) {
         if (categorias.length) {
-          categorias.map((categoria) => {
-            const objeto = {
-              categoria_id: Number(categoria),
-              destino_id: Number(respuesta.id)
-            };
-
-            this.categoriaService.createCategoriaDestino(objeto).subscribe((respuestaFinal) => {
-              if (respuestaFinal.success) {
-                Swal.fire(
-                  'Almacenamiento!',
-                  'Exitoso.',
-                  'success'
-                );
-                setTimeout(() => {
-                  this.router.navigate(['/panel/destino']);
-                }, 1000);
-              }
-            });
+          const objeto = {
+            categoria_id: categorias,
+            destino_id: Number(respuesta.id)
+          };
+          this.categoriaService.createCategoriaDestino(objeto).subscribe((respuestaFinal) => {
+            if (respuestaFinal.success) {
+              Swal.fire(
+                'Almacenamiento!',
+                'Exitoso.',
+                'success'
+              );
+              setTimeout(() => {
+                this.router.navigate(['/panel/destino']);
+              }, 1000);
+            }
           });
         }
       }
@@ -265,19 +263,30 @@ export class DestinoCreateEditComponent implements OnInit {
       return $(this).val().valueOf();
     }).toArray();
 
-
+    if (this.destinoForm.invalid) {
+      return 0;
+    }
     this.destinoService.updateDestino(this.destino_id, this.destinoForm.value).subscribe((respuesta) => {
 
       if (respuesta.success) {
-        Swal.fire(
-          'Actualizacion!',
-          'Exitoso.',
-          'success'
-        );
-        setTimeout(() => {
-          this.router.navigate(['/panel/destino']);
-        }, 1000);
-
+        if (categorias.length) {
+          const objeto = {
+            categoria_id: categorias,
+            destino_id: Number(this.destino_id)
+          };
+          this.categoriaService.createCategoriaDestino(objeto).subscribe((respuestaFinal) => {
+            if (respuestaFinal.success) {
+              Swal.fire(
+                'Actualizacion!',
+                'Exitoso.',
+                'success'
+              );
+              setTimeout(() => {
+                this.router.navigate(['/panel/destino']);
+              }, 1000);
+            }
+          });
+        }
       }
     }, (error) => {
       console.log(error);

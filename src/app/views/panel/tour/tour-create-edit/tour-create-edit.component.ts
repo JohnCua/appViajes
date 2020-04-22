@@ -124,7 +124,8 @@ export class TourCreateEditComponent implements OnInit {
       const objeto = {
         base_64: '',
         extension: '',
-        nombre: ''
+        nombre: '',
+        nombreAA: 'nuevo'
       };
       let base64string = '';
       this.progresspdf = 0;
@@ -155,7 +156,8 @@ export class TourCreateEditComponent implements OnInit {
       const objeto = {
         base_64: '',
         extension: '',
-        nombre: ''
+        nombre: '',
+        nombreAA: 'nuevo'
       };
       let base64string = '';
       this.progressfoto = 0;
@@ -216,21 +218,21 @@ export class TourCreateEditComponent implements OnInit {
     this.tourForm.get('codigo').setValue(respuesta.tour.codigo);
     this.tourForm.get('estado').setValue(respuesta.tour.estado);
 
-    const pdf: [] = JSON.parse(respuesta.tour.pdf);
-
-    if (  pdf !== null && pdf.length) {
+    const pdf = respuesta.tour.pdf;
+    if (  pdf !== null && pdf) {
         // AA= nombre Actual Almacenado
-        pdf.map((img, index) => {
-          const objeto = {
-            base_64: '',
-            extension: '',
-            nombre: '',
-            nombreAA: ''
-          };
-          objeto.nombre = 'PDF almacenado ' + (index + 1);
-          objeto.nombreAA = img;
-          this.pdfSinGuardar.push(objeto);
-        });
+
+        const objeto = {
+          base_64: '',
+          extension: '',
+          nombre: '',
+          nombreAA: ''
+        };
+        objeto.nombre = 'PDF almacenado ' + (1);
+        objeto.nombreAA = pdf;
+        console.log(objeto)
+        this.pdfSinGuardar.push(objeto);
+
         this.progresspdf = 100;
         this.guardarPdf();
       }
@@ -242,21 +244,21 @@ export class TourCreateEditComponent implements OnInit {
 
     this.tourForm.get('descripcion').setValue(respuesta.tour.descripcion);
 
-    const foto: [] = JSON.parse(respuesta.tour.pdf);
+    const foto = respuesta.tour.pdf;
 
-    if (  foto !== null && foto.length) {
+    if (foto !== null && foto) {
         // AA= nombre Actual Almacenado
-        foto.map((img, index) => {
-          const objeto = {
-            base_64: '',
-            extension: '',
-            nombre: '',
-            nombreAA: ''
-          };
-          objeto.nombre = 'Foto almacenado ' + (index + 1);
-          objeto.nombreAA = img;
-          this.fotoSinGuardar.push(objeto);
-        });
+
+        const objeto = {
+          base_64: '',
+          extension: '',
+          nombre: '',
+          nombreAA: ''
+        };
+        objeto.nombre = 'Foto almacenado ' + (1);
+        objeto.nombreAA = foto;
+        this.fotoSinGuardar.push(objeto);
+
         this.progressfoto = 100;
         this.guardarFoto();
       }
@@ -343,14 +345,46 @@ export class TourCreateEditComponent implements OnInit {
   }
 
   actualizarTour() {
+    const destino = $('#selectDestino').val();
+    this.tourForm.get('destino_id').setValue(destino);
+
     const etiquetas = $("select[name='Etiqueta[]']").map(function() {
       return $(this).val().valueOf();
     }).toArray();
     console.log(this.tourForm.value);
     console.log(etiquetas);
-    /* this.tourService.editTour(this.tourId,this.tourForm.value).subscribe((respuesta) => {
 
-   }); */
+    if (this.tourForm.invalid) {
+      return 0;
+    }
+    this.tourService.editTour(this.tourId, this.tourForm.value).subscribe((respuesta) => {
+      if (respuesta.success) {
+        if (etiquetas.length) {
+          const objeto = {
+            etiqueta_id: etiquetas,
+            tour_id: Number(this.tourId)
+          };
+
+          console.log(objeto)
+          this.etiquetaService.createEtiquetaTour(objeto).subscribe((respuestaFinal: any) => {
+            console.log(respuestaFinal)
+            if (respuestaFinal.success) {
+              Swal.fire(
+                'Actualizacion!',
+                'Exitoso.',
+                'success'
+              );
+              setTimeout(() => {
+                this.router.navigate(['/panel/tour']);
+              }, 1000);
+             }
+
+          }, (error) => {
+              console.log(error);
+          });
+        }
+      }
+   });
   }
 
   selectDestinos() {

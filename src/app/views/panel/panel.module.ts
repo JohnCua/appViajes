@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PanelRoutingModule } from './panel-routing.module';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatButtonModule,MatTooltipModule} from '@angular/material';
+import {MatButtonModule, MatTooltipModule} from '@angular/material';
 
 
 @NgModule({

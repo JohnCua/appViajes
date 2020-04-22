@@ -23,7 +23,6 @@ export class DestinoIndexComponent implements OnInit {
 
   destinos: any = [];
 
-  
   private baseURL = environment['api'].apiUrl;
   baseURLImagen = environment['apiImagen'].apiUrlImagen;
   // Paginacion
@@ -97,11 +96,15 @@ export class DestinoIndexComponent implements OnInit {
     delete this.detalle;
     this.destinoService.getDestino(destiono_id).subscribe((data: any) => {
       this.detalle = data.destino;
+      console.log(this.detalle)
       const galeria = JSON.parse(this.detalle.galeria);
       this.detalle.galeria = [];
-      galeria.map((img) => {
-        this.detalle.galeria.push(img);
-      });
+
+      if (galeria !== null && galeria.length) {
+        galeria.map((img) => {
+          this.detalle.galeria.push(img);
+        });
+      }
     });
   }
 

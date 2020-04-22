@@ -42,7 +42,7 @@
                             <td>{{tour.lugar}}</td>
                             <td>{{tour.activo ? 'Si' : 'No'}}</td>
                             <td class="td-actions ">
-                                <a mat-raised-button [routerLink]="['tours/createdit/',tour.id]" type="button" matTooltip="Actualizar datos" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                <a mat-raised-button [routerLink]="['tour/createdit/',tour.id]" type="button" matTooltip="Actualizar datos" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">edit</i>
                                 </a>
                                 <a mat-raised-button type="button" (click)="verDetalleTour(tour.id)" data-toggle="modal" data-target="#detalleDestino" matTooltip="Ver detalle" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
@@ -69,7 +69,7 @@
                     </div>
 
                     <div class="col-md-6 text-right">
-                        <button [routerLink]="['destino/createdit']" mat-raised-button type="button" matTooltip="Nuevo tour" [matTooltipPosition]="'above'" class="btn btn-secondary btn-link  btn-just-icon ">
+                        <button [routerLink]="['/panel/destino/createdit']" mat-raised-button type="button" matTooltip="Nuevo tour" [matTooltipPosition]="'above'" class="btn btn-secondary btn-link  btn-just-icon ">
               <i class="fas fa-1x fa-plus-square"></i>
             </button>
                     </div>

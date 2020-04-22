@@ -13,7 +13,7 @@ export class CategoriaService extends MetodosBase {
     return this.get('categoria');
   }
 
-  createCategoriaDestino(data: any){
-    return this.post(`categoria/{categoria}/destino`, data);
+  createCategoriaDestino(data: any) {
+    return this.post(`categoria/destino`, data);
   }
 }
