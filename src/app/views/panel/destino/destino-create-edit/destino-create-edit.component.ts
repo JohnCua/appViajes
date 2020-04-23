@@ -228,14 +228,14 @@ export class DestinoCreateEditComponent implements OnInit {
     }
     console.log(this.destinoForm.value)
     this.destinoService.createDestino(this.destinoForm.value).subscribe((respuesta) => {
-      if (respuesta.id) {
+      if (respuesta.respuesta) {
         if (categorias.length) {
           const objeto = {
             categoria_id: categorias,
-            destino_id: Number(respuesta.id)
+            destino_id: Number(respuesta.respuesta)
           };
           this.categoriaService.createCategoriaDestino(objeto).subscribe((respuestaFinal) => {
-            if (respuestaFinal.success) {
+            if (respuestaFinal.respuesta) {
               Swal.fire(
                 'Almacenamiento!',
                 'Exitoso.',
@@ -268,14 +268,14 @@ export class DestinoCreateEditComponent implements OnInit {
     }
     this.destinoService.updateDestino(this.destino_id, this.destinoForm.value).subscribe((respuesta) => {
 
-      if (respuesta.success) {
+      if (respuesta.respuesta) {
         if (categorias.length) {
           const objeto = {
             categoria_id: categorias,
             destino_id: Number(this.destino_id)
           };
           this.categoriaService.createCategoriaDestino(objeto).subscribe((respuestaFinal) => {
-            if (respuestaFinal.success) {
+            if (respuestaFinal.respuesta) {
               Swal.fire(
                 'Actualizacion!',
                 'Exitoso.',

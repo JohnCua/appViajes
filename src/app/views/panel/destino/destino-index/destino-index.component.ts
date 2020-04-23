@@ -37,7 +37,7 @@ export class DestinoIndexComponent implements OnInit {
   public searchTimeout: any;
 
   // detalle del destino
-  detalle: any;
+  selected_destino: any;
 
   constructor(
     private destinoService: DestinoService,
@@ -93,16 +93,15 @@ export class DestinoIndexComponent implements OnInit {
   }
 
   verDetalle(destiono_id) {
-    delete this.detalle;
+    delete this.selected_destino;
     this.destinoService.getDestino(destiono_id).subscribe((data: any) => {
-      this.detalle = data.destino;
-      console.log(this.detalle)
-      const galeria = JSON.parse(this.detalle.galeria);
-      this.detalle.galeria = [];
+      this.selected_destino = data;
+      const galeria = JSON.parse(this.selected_destino.destino.galeria);
+      this.selected_destino.destino.galeria = [];
 
       if (galeria !== null && galeria.length) {
         galeria.map((img) => {
-          this.detalle.galeria.push(img);
+          this.selected_destino.destino.galeria.push(img);
         });
       }
     });
@@ -124,7 +123,7 @@ export class DestinoIndexComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.destinoService.deleteDestino(destino_id).subscribe((respuesta) => {
-          if (respuesta.success) {
+          if (respuesta.respuesta) {
             // this.ngZone.run(()=>{
             //  this.destinos.data.splice(indice,1);
             //   });

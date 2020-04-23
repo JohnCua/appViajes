@@ -14,8 +14,9 @@ import {
   SimpleLayoutComponent
 } from './layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HeaderInterceptor } from './helper/header.interceptor';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 //variable contenedor
 const APP_CONTAINERS=[
@@ -31,11 +32,15 @@ const APP_CONTAINERS=[
 @NgModule({
   declarations: [
     AppComponent,
-    ...APP_CONTAINERS
+    ...APP_CONTAINERS,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     SharedModulosModule,
   ],
   providers: [ ],

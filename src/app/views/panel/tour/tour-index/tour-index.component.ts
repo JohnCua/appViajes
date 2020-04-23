@@ -22,7 +22,7 @@ export class TourIndexComponent implements OnInit {
   displayedColumns: string[] = ['codigo', 'nombre', 'descripcion', 'lugar', 'destino', 'fechas', 'cantidad', 'activo', 'opciones'];
 
   tours: any = [];
-  detalleTour: any;
+  selected_tour: any;
 
   // Paginacion
   public currentPage = 1;
@@ -85,12 +85,14 @@ export class TourIndexComponent implements OnInit {
   }
 
   verDetalleTour(tour_id){
+    delete this.selected_tour;
     this.tourService.getTour(tour_id).subscribe((data: any) => {
-      this.detalleTour = data.tour;
+      this.selected_tour = data;
+      console.log(this.selected_tour);
     });
   }
 
-  eliminarDestino(tour_id, indice) {
+  eliminarTour(tour_id, indice) {
     const tour = {
       id: tour_id
     };
@@ -105,7 +107,7 @@ export class TourIndexComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.tourService.deleteTour(tour_id).subscribe((respuesta) => {
-          if (respuesta.success) {
+          if (respuesta.respuesta) {
             // this.ngZone.run(()=>{
             //  this.destinos.data.splice(indice,1);
             //   });

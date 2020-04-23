@@ -9,7 +9,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header card-header-warning">
+            <div class="card-header card-header-primary">
                 <div class="row">
                     <div class="col-md-6">
                         <h4 class="card-title">Tours</h4>
@@ -81,18 +81,17 @@
                         <ng-container matColumnDef="opciones">
                             <th class="text-warning" mat-header-cell *matHeaderCellDef> Opciones </th>
                             <td mat-cell class="td-actions " *matCellDef="let element; let i=index">
-                                <button mat-raised-button type="button" matTooltip="Eliminar destino" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                <button mat-raised-button type="button" matTooltip="Eliminar tour" (click)="eliminarTour(element.id,i)" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">close</i>
                                 </button>
                                 <a mat-raised-button [routerLink]="['createdit/',element.id]" type="button" matTooltip="Actualizar datos" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">edit</i>
                                 </a>
-                                <a mat-raised-button type="button" (click)="verDetalleTour(element.id)" data-toggle="modal" data-target="#detalleDestino" matTooltip="Ver detalle" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                <a mat-raised-button type="button" (click)="verDetalleTour(element.id)" data-toggle="modal" data-target="#detalleTour" matTooltip="Ver detalle" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">remove_red_eye</i>
                                 </a>
                             </td>
                         </ng-container>
-
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -107,23 +106,22 @@
 </div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Detalle-->
+<div class="modal fade" id="detalleTour" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+        <div class="modal-content" *ngIf="selected_tour">
+            <div class="animated fadeIn modal-body ">
+                <ng-container *ngIf="selected_tour">
+                    <app-detalle-tour [data]="selected_tour" ></app-detalle-tour>
+                </ng-container>  
+                <div class="row text-right">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
             </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+
         </div>
     </div>
 </div>

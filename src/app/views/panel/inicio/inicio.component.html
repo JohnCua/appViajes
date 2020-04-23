@@ -13,17 +13,25 @@
                 <div class="row">
                     <div class="col-md-6">
                         <h4 class="card-title">Tours</h4>
-                        <p class="card-category">Top 5 de los tours mas recientes</p>
+                        <p class="card-category">Top 3 de los tours mas recientes</p>
                     </div>
 
                     <div class="col-md-6 text-right">
-                        <button [routerLink]="['/panel/tours/createdit']" mat-raised-button type="button" matTooltip="Nuevo tour" [matTooltipPosition]="'above'" class="btn btn-secondary btn-link  btn-just-icon ">
+                        <button [routerLink]="['/panel/tour/createdit']" mat-raised-button type="button" matTooltip="Nuevo tour" [matTooltipPosition]="'above'" class="btn btn-secondary btn-link  btn-just-icon ">
               <i class="fas fa-1x fa-plus-square"></i>
             </button>
                     </div>
                 </div>
-
             </div>
+
+            <div class="row">
+                <div *ngFor="let tour of tours_completos" class="col-4">
+                    <ng-container *ngIf="tour">
+                        <app-detalle-tour [data]="tour" ></app-detalle-tour>
+                    </ng-container>  
+                </div>
+            </div>
+            <!--
             <div class="card-body table-responsive">
                 <table class="table table-hover">
                     <thead class="text-warning">
@@ -42,10 +50,11 @@
                             <td>{{tour.lugar}}</td>
                             <td>{{tour.activo ? 'Si' : 'No'}}</td>
                             <td class="td-actions ">
+                               
                                 <a mat-raised-button [routerLink]="['tour/createdit/',tour.id]" type="button" matTooltip="Actualizar datos" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">edit</i>
                                 </a>
-                                <a mat-raised-button type="button" (click)="verDetalleTour(tour.id)" data-toggle="modal" data-target="#detalleDestino" matTooltip="Ver detalle" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                <a mat-raised-button type="button" (click)="verDetalleTour(tour.id)" data-toggle="modal" data-target="#detalleTour" matTooltip="Ver detalle" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">remove_red_eye</i>
                                 </a>
                             </td>
@@ -53,7 +62,7 @@
 
                     </tbody>
                 </table>
-            </div>
+            </div>-->
         </div>
     </div>
 
@@ -92,9 +101,10 @@
                             <td>{{destino.lugar}}</td>
                             <td>{{destino.valoracion}}</td>
                             <td class="td-actions ">
+                                <!--
                                 <a mat-raised-button [routerLink]="['createdit/',destino.id]" type="button" matTooltip="Actualizar datos" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">edit</i>
-                                </a>
+                                </a>-->
                                 <a mat-raised-button type="button" (click)="verDetalleDestino(destino.id)" data-toggle="modal" data-target="#detalleDestino" matTooltip="Ver detalle" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">remove_red_eye</i>
                                 </a>
@@ -112,62 +122,11 @@
 <!-- Modal Destino -->
 <div class="modal fade" id="detalleDestino" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content" *ngIf="detalle">
+        <div class="modal-content" *ngIf="selected_destino">            
             <div class="animated fadeIn modal-body ">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-header card-header-info">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h2 class="card-title">{{detalle.nombre}}</h2>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12  text-center">
-                                    <h3 class="card-category">{{detalle.encabezado}}</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body ">
-                            <div class="row">
-                                <div class="col-md-12  text-center">
-                                    <div class=" p-2 ">
-                                        <h3 class="m-auto">{{detalle.descripcion}}
-                                        </h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-12  text-center">
-                                    <h3>Galeria</h3>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12  text-center">
-                                    <div class="card text-center center card-header-info" *ngIf="detalle.galeria.length > 0">
-                                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width:auto; ">
-                                            <div class="carousel-inner">
-                                                <div class="carousel-item {{i==0 ? 'active' : ''}}" data-interval="20000" *ngFor="let galeria of detalle.galeria; let i = index;">
-                                                    <img [src]="baseURLImagen+galeria" class="d-block w-100" alt="..." style="height: auto;">
-                                                </div>
-                                            </div>
-                                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                <span style="background-color: #000000 !important " class="sr-only">Previous</span>
-                                            </a>
-                                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                <span style="background-color: #000000 !important ; " class="sr-only">Next</span>
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <ng-container *ngIf="selected_destino">
+                    <app-detalle-destino [data]="selected_destino" ></app-detalle-destino>
+                </ng-container>   
                 <div class="row text-right">
                     <div class="col-md-12">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -179,5 +138,24 @@
         </div>
     </div>
 </div>
-
 <!--End modal detalle Destino-->
+
+<!-- Modal Detalle Tour-->
+<div class="modal fade" id="detalleTour" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content" *ngIf="selected_tour">
+            <div class="animated fadeIn modal-body ">
+                <ng-container *ngIf="selected_tour">
+                    <app-detalle-tour [data]="selected_tour" ></app-detalle-tour>
+                </ng-container>  
+                <div class="row text-right">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

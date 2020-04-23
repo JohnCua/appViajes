@@ -17,16 +17,17 @@ export class InicioComponent implements OnInit {
 
   // tour
   tours: any = [];
-  detalleTour: any;
+  tours_completos: any=[];
+  selected_tour: any;
   // destino
-  detalle: any;
+  selected_destino: any;
   destinos: any = [];
     // Paginacion
     public currentPage = 1;
     public length = 0;
     public pageSize = 5;
     public sortBy = 'id';
-    public sortOrder = 'asc';
+    public sortOrder = 'desc';
 
 
   constructor(
@@ -76,7 +77,7 @@ export class InicioComponent implements OnInit {
 
     // Filtros del destino
     const filtro = {
-      many: 5,
+      many: 3,
       sort_by: this.sortBy,
       direction: this.sortOrder,
       ...busqueda
@@ -85,26 +86,38 @@ export class InicioComponent implements OnInit {
     this.tourService.getTours(filtro).subscribe(
       (datos: any) => {
        this.tours = datos.data;
+       console.log(datos);       
+       console.log(this.tours);
+       
+       this.tours.forEach(element => {
+        this.tourService.getTour(element.id).subscribe((data: any) => {
+          this.tours_completos.push(data);          
+        });        
+       });   
+       console.log(this.tours_completos);
+       
       });
   }
 
   verDetalleDestino(destiono_id: any) {
-    delete this.detalle;
+    delete this.selected_destino;
     this.destinoService.getDestino(destiono_id).subscribe((data: any) => {
-      this.detalle = data.destino;
-      const galeria = JSON.parse(this.detalle.galeria);
-      this.detalle.galeria = [];
-
+      this.selected_destino = data;
+      const galeria = JSON.parse(this.selected_destino.destino.galeria);
+      this.selected_destino.destino.galeria = [];
+      console.log(this.selected_destino);
+      
       galeria.map((img) => {
-        this.detalle.galeria.push(img);
-      });
-
+        this.selected_destino.destino.galeria.push(img);
+      });    
     });
   }
 
   verDetalleTour(tour_id){
+    delete this.selected_tour;
     this.tourService.getTour(tour_id).subscribe((data: any) => {
-      this.detalleTour = data.tour;
+      this.selected_tour = data;
+      console.log(this.selected_tour);
     });
   }
 

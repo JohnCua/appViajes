@@ -1,0 +1,99 @@
+<div *ngIf="data.tour.foto" class="card mb-3">
+    <img [src]="baseURLImagen+data.tour.foto" class="card-img-top" alt="..." style="height: auto;">
+    <div class="card-body">
+        <h3 class="card-title"> {{data.tour.nombre}}</h3>
+        <p class="card-text">{{data.tour.descripcion}}</p>
+        <div class="row align-items-start">
+            <div class="col-md-auto">
+                Etiquetas: 
+            </div>
+            <ng-container *ngFor="let etiqueta of data.etiquetas">
+                <div class="col-md-auto">
+                    <span class="badge badge-pill badge-secondary">{{etiqueta.nombre}}</span>
+                </div>                                    
+            </ng-container>   
+        </div>  
+        <hr>
+        <div *ngIf="data.tour.fecha_fija" class="row">
+            <div class="col">
+                Fecha del tour: {{data.tour.fecha_fija | date:'dd/MM/yyyy'}}
+            </div>     
+            <div class="col">
+                Código: {{data.tour.codigo}}
+            </div>      
+        </div>
+        <div *ngIf="!data.tour.fecha_fija" class="row">
+            <div class="col">
+                Fecha inicial: {{data.tour.inicio | date:'dd/MM/yyyy'}}
+            </div>
+            <div class="col">
+                Fecha final: {{data.tour.final | date:'dd/MM/yyyy'}}
+            </div>
+            <div class="col">
+                Código: {{data.tour.codigo}}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                Idioma: {{data.tour.idioma}}
+            </div>
+            <div class="col">
+                Destino: {{data.destino.nombre}}
+            </div>
+        </div>        
+    </div>
+</div>
+  
+<!--
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header card-header-info">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="card-title">{{data.tour.nombre}}</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12  text-center">
+                    <h3 class="card-category">{{data.tour.descripcion}}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="card-body ">                            
+            <div class="row align-items-start my-n1">
+                <div class="col-md-auto">
+                    Etiquetas: 
+                </div>
+                <ng-container *ngFor="let etiqueta of data.etiquetas">
+                    <div class="col-md-auto">
+                        <span style="font-size: 1.2em" class="badge badge-pill badge-secondary">{{etiqueta.nombre}}</span>
+                    </div>                                    
+                </ng-container>   
+            </div>  
+            <hr>                        
+                                        
+            <div class="row">
+                <div class="col-md-12  text-center">
+                    <div class=" p-2 ">
+                        <h3 class="m-auto">{{data.descripcion}}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12  text-center">
+                    <h3>Galeria</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12  text-center">
+                    <div class="card text-center center card-header-info" *ngIf="data.tour.foto">
+                        <img [src]="baseURLImagen+data.tour.foto" class="d-block w-100" alt="..." style="height: auto;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+-->
