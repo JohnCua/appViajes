@@ -1,4 +1,4 @@
-import {Component, OnInit,NgZone} from '@angular/core';
+import {Component, OnInit, NgZone} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import Swal from 'sweetalert2';
@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { DestinoService } from 'src/app/services/destino/destino.service';
 import { environment } from 'src/environments/environment';
 import { CategoriaService } from 'src/app//services/categoria/categoria.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 const Toast = Swal.mixin({
   toast: true,
   position: 'top',
@@ -37,18 +38,28 @@ export class CategoriaIndexComponent implements OnInit {
   public filterQuery = '';
   public searchTimeout: any;
 
-  // detalle del destino
-  detalle: any;
+
+  // formulario
+
+  categoriaForm: FormGroup;
+
+  editing = false;
+  categoria_id: number;
+
+  detalleCategoria: any;
+
 
   constructor(
     private destinoService: DestinoService,
     private categoriaService: CategoriaService,
+    private formBuilder: FormBuilder,
     private ngZone: NgZone) {
 
   }
 
   ngOnInit() {
     this.getCategorias();
+    this.onInitForm();
   }
 
   // Parametro: BUsqueda es un termino para buscar
@@ -94,18 +105,82 @@ export class CategoriaIndexComponent implements OnInit {
     }
   }
 
-  verDetalle(destiono_id) {
-    delete this.detalle;
-    this.destinoService.getDestino(destiono_id).subscribe((data: any) => {
-      this.detalle = data.destino;
-      console.log(this.detalle)
-      const galeria = JSON.parse(this.detalle.galeria);
-      this.detalle.galeria = [];
+  onInitForm() {
+    this.categoriaForm = this.formBuilder.group({
+      nombre: ['', Validators.compose([Validators.required])],
+      descripcion: ['', Validators.compose([Validators.required])],
+    });
+  }
 
-      if (galeria !== null && galeria.length) {
-        galeria.map((img) => {
-          this.detalle.galeria.push(img);
-        });
+  getDetalleCategoria(categoria_id) {
+    this.categoriaService.getCategoria(categoria_id).subscribe((data) => {
+      this.detalleCategoria = data;
+    });
+  }
+
+  editignCategoria(categoria_id) {
+    this.categoria_id = categoria_id;
+    this.categoriaService.getCategoria(categoria_id).subscribe((data) => {
+      this.categoriaForm.get('nombre').setValue(data.categoria.nombre);
+      this.categoriaForm.get('descripcion').setValue(data.categoria.descripcion);
+      this.editing = true;
+    });
+  }
+
+
+
+  guardarCategoria() {
+    if (this.editing) {
+      this.actualizarCategoria();
+   } else {
+     this.createCategoria();
+   }
+  }
+
+  createCategoria() {
+    if (this.categoriaForm.invalid) {
+      return 0;
+    }
+    this.categoriaService.createCategoria(this.categoriaForm.value).subscribe((respuesta) => {
+      if (respuesta.respuesta) {
+        this.getCategorias();
+        $('#createCategoria').trigger('click');
+        Swal.fire(
+          'Almacenamiento!',
+          'Exitoso.',
+          'success'
+        );
+      } else {
+        Swal.fire(
+          'Almacenamiento!',
+          'Ese tour ya existe.',
+          'error'
+        );
+      }
+    });
+  }
+
+  actualizarCategoria() {
+
+    if (this.categoriaForm.invalid) {
+      return 0;
+    }
+    this.categoriaService.updateCategoria(this.categoria_id, this.categoriaForm.value).subscribe((respuesta) => {
+      if (respuesta.respuesta) {
+        this.getCategorias();
+        $('#createCategoria').trigger('click');
+        Swal.fire(
+          'Actualizacion!',
+          'Exitoso.',
+          'success'
+        );
+        this.editing = false;
+      } else {
+        Swal.fire(
+          'Actualizacion!',
+          'Ocurrio un error.',
+          'error'
+        );
       }
     });
   }

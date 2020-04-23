@@ -14,19 +14,19 @@ export class CategoriaService extends MetodosBase {
   }
 
   getCategoria(categoria_id) {
-    return this.get(`categoria${categoria_id}`);
+    return this.get(`categoria/${categoria_id}`);
   }
 
   createCategoria(data: any) {
     return this.post(`categoria`, data);
   }
 
-  updateCategoria(categoria_id,data: any) {
-    return this.post(`categoria${categoria_id}`, data);
+  updateCategoria(categoria_id, data: any) {
+    return this.put(`categoria/${categoria_id}`, data);
   }
 
   deleteCategoria(categoria_id) {
-    return this.delete(`categoria${categoria_id}`);
+    return this.delete(`categoria/${categoria_id}`);
   }
 
   createCategoriaDestino(data: any) {

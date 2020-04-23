@@ -92,9 +92,9 @@ export class DestinoIndexComponent implements OnInit {
     }
   }
 
-  verDetalle(destiono_id) {
+  verDetalle(destino_id) {
     delete this.selected_destino;
-    this.destinoService.getDestino(destiono_id).subscribe((data: any) => {
+    this.destinoService.getDestino(destino_id).subscribe((data: any) => {
       this.selected_destino = data;
       const galeria = JSON.parse(this.selected_destino.destino.galeria);
       this.selected_destino.destino.galeria = [];

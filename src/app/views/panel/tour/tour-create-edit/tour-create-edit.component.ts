@@ -24,7 +24,7 @@ import {MatRadioModule} from '@angular/material/radio';
 })
 export class TourCreateEditComponent implements OnInit {
 
-  
+
   private baseURL = environment['api'].apiUrl;
 
   f_fija = true;
@@ -82,13 +82,13 @@ export class TourCreateEditComponent implements OnInit {
   onInitForm() {
     this.tourForm = this.formBuilder.group({
       nombre: ['', Validators.compose([Validators.required])],
-      inicio: [null],
-      final: [null],
+      inicio: '',
+      final: '',
       duracion: ['', Validators.compose([Validators.required])],
       codigo: ['', Validators.compose([Validators.required])],
       estado: ['', Validators.compose([Validators.required])],
       pdf: ['', Validators.compose([Validators.required])],
-      fecha_fija: [null],
+      fecha_fija: '',
       cantidad: [0, Validators.compose([Validators.required])],
       idioma: ['', Validators.compose([Validators.required])],
       activo: [Boolean, Validators.compose([Validators.required])],
@@ -355,8 +355,6 @@ export class TourCreateEditComponent implements OnInit {
     const etiquetas = $("select[name='Etiqueta[]']").map(function() {
       return $(this).val().valueOf();
     }).toArray();
-    console.log(this.tourForm.value);
-    console.log(etiquetas);
 
     if (this.tourForm.invalid) {
       return 0;
@@ -369,9 +367,7 @@ export class TourCreateEditComponent implements OnInit {
             tour_id: Number(this.tourId)
           };
 
-          console.log(objeto)
           this.etiquetaService.createEtiquetaTour(objeto).subscribe((respuestaFinal: any) => {
-            console.log(respuestaFinal)
             if (respuestaFinal.respuesta) {
               Swal.fire(
                 'Actualizacion!',

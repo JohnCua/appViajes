@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header card-header-danger">
-        <h3 class="card-title text-center">Destinos</h3>
+        <h3 class="card-title text-center">Categorias</h3>
     </div>
 </div>
 
@@ -10,8 +10,8 @@
             <div class="card-header card-header-warning">
                 <div class="row">
                     <div class="col-md-6">
-                        <h4 class="card-title">Destinos</h4>
-                        <p class="card-category">Lista de destinos en curso</p>
+                        <h4 class="card-title">Categorias</h4>
+                        <p class="card-category">Lista de categorias</p>
                     </div>
 
                     <div class="col-md-6 text-right">
@@ -52,8 +52,12 @@
                                 <button mat-raised-button type="button" matTooltip="Eliminar categoria" (click)="eliminarCategoria(element.id,i)" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
                                 <i class="material-icons">close</i>
                                 </button>
-                                <a mat-raised-button type="button" matTooltip="Actualizar datos" data-toggle="modal" data-target="#createCategoria" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                <a mat-raised-button type="button" (click)="editignCategoria(element.id,i)" matTooltip="Actualizar datos" data-toggle="modal" data-target="#createCategoria" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">edit</i>
+                                </a>
+
+                                <a mat-raised-button type="button" (click)="getDetalleCategoria(element.id)" data-toggle="modal" data-target="#detalleCategoria" matTooltip="Ver detalle" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                    <i class="material-icons">remove_red_eye</i>
                                 </a>
                             </td>
                         </ng-container>
@@ -73,7 +77,7 @@
 </div>
 
 
-<!-- Modal Detalle-->
+<!-- Modal crear y editar categoria-->
 <div class="modal fade" id="createCategoria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -81,37 +85,84 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header card-header-info">
-                            <div class="row">
-                                <div class="col-md-12">
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12  text-center">
-
-                                </div>
-                            </div>
+                            <h4 id="txtTitulo" class="card-title">Registro de nueva categoria</h4>
                         </div>
                         <div class="card-body ">
-                            <div class="row">
-                                <div class="col-md-12  text-center">
-                                    <div class=" p-2 ">
-
+                            <form [(formGroup)]="categoriaForm">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail4">Nombre</label>
+                                        <input type="text" class="form-control" formControlName="nombre">
                                     </div>
                                 </div>
-                            </div>
+                                <br>
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label>Descripcion</label>
+                                        <textarea class="form-control" formControlName="descripcion" placeholder="Ingrese una breve descripcion"></textarea>
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+                                <div class="clearfix"></div>
+                            </form>
                         </div>
                     </div>
                 </div>
 
                 <div class="row text-right">
-                    <div class="col-md-12">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Cancelar</button>
                     </div>
+                    <div class="col-md-6">
+                        <button ctype="submit" (click)="guardarCategoria()" class="btn btn-primary pull-left">Guardar</button>
+                    </div>
+
                 </div>
 
             </div>
 
+        </div>
+    </div>
+</div>
+
+<!--End modal crear y editar categoria-->
+
+
+<!-- Modal Detalle-->
+<div class="modal fade" id="detalleCategoria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="animated fadeIn modal-body " *ngIf="detalleCategoria">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            <h4 id="txtTitulo" class="card-title">{{detalleCategoria.categoria.nombre}}</h4>
+                        </div>
+                        <div class="card-body ">
+                            <table class="table table-hover">
+                                <thead class="text-warning">
+                                    <th>Nombre</th>
+                                    <th>Encabezado</th>
+                                    <th>Descripcion</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let destino of detalleCategoria.destinos">
+                                        <td>{{destino.nombre}}</td>
+                                        <td>{{destino.encabezado}}</td>
+                                        <td>{{destino.descripcion}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-right">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
