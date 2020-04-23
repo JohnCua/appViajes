@@ -15,6 +15,8 @@ import { DestinoService } from 'src/app/services/destino/destino.service';
 import { TourService } from 'src/app/services/tour/tour.service';
 import { EtiquetaService } from 'src/app/services/etiqueta/etiqueta.service';
 
+import {MatRadioModule} from '@angular/material/radio'; 
+
 @Component({
   selector: 'app-tour-create-edit',
   templateUrl: './tour-create-edit.component.html',
@@ -24,6 +26,8 @@ export class TourCreateEditComponent implements OnInit {
 
   
   private baseURL = environment['api'].apiUrl;
+
+  f_fija = true;
 
   // variable para subir archivos
   filepdf: any = {
@@ -78,13 +82,13 @@ export class TourCreateEditComponent implements OnInit {
   onInitForm() {
     this.tourForm = this.formBuilder.group({
       nombre: ['', Validators.compose([Validators.required])],
-      inicio: ['', Validators.compose([Validators.required])],
-      final: ['', Validators.compose([Validators.required])],
+      inicio: [null],
+      final: [null],
       duracion: ['', Validators.compose([Validators.required])],
       codigo: ['', Validators.compose([Validators.required])],
       estado: ['', Validators.compose([Validators.required])],
       pdf: ['', Validators.compose([Validators.required])],
-      fecha_fija: ['', Validators.compose([Validators.required])],
+      fecha_fija: [null],
       cantidad: [0, Validators.compose([Validators.required])],
       idioma: ['', Validators.compose([Validators.required])],
       activo: [Boolean, Validators.compose([Validators.required])],
@@ -236,7 +240,7 @@ export class TourCreateEditComponent implements OnInit {
         this.progresspdf = 100;
         this.guardarPdf();
       }
-
+    
     this.tourForm.get('fecha_fija').setValue(respuesta.tour.fecha_fija);
     this.tourForm.get('cantidad').setValue(respuesta.tour.cantidad);
     this.tourForm.get('idioma').setValue(respuesta.tour.idioma);
@@ -318,7 +322,7 @@ export class TourCreateEditComponent implements OnInit {
           console.log(objeto)
           this.etiquetaService.createEtiquetaTour(objeto).subscribe((respuestaFinal: any) => {
             console.log(respuestaFinal)
-            if (respuestaFinal.success) {
+            if (respuestaFinal.respuesta) {
               Swal.fire(
                 'Almacenamiento!',
                 'Exitoso.',
@@ -358,7 +362,7 @@ export class TourCreateEditComponent implements OnInit {
       return 0;
     }
     this.tourService.editTour(this.tourId, this.tourForm.value).subscribe((respuesta) => {
-      if (respuesta.success) {
+      if (respuesta.respuesta) {
         if (etiquetas.length) {
           const objeto = {
             etiqueta_id: etiquetas,
@@ -368,7 +372,7 @@ export class TourCreateEditComponent implements OnInit {
           console.log(objeto)
           this.etiquetaService.createEtiquetaTour(objeto).subscribe((respuestaFinal: any) => {
             console.log(respuestaFinal)
-            if (respuestaFinal.success) {
+            if (respuestaFinal.respuesta) {
               Swal.fire(
                 'Actualizacion!',
                 'Exitoso.',

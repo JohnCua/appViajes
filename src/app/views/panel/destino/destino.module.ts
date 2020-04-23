@@ -11,6 +11,8 @@ import {MatButtonModule,MatTooltipModule} from '@angular/material';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { Select2Module } from 'ng2-select2';
 
+import { SharedModulosModule } from 'src/app/shared/shared-modulos/shared-modulos.module';
+
 @NgModule({
   declarations: [DestinoIndexComponent,DestinoCreateEditComponent],
   imports: [
@@ -24,7 +26,8 @@ import { Select2Module } from 'ng2-select2';
     MatButtonModule,
     MatTooltipModule,
     SweetAlert2Module,
-    Select2Module
+    Select2Module,
+    SharedModulosModule,
   ]
 })
 export class DestinoModule { }

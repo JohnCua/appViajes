@@ -9,6 +9,8 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator'; 
 import {MatButtonModule,MatTooltipModule} from '@angular/material';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { SharedModulosModule } from 'src/app/shared/shared-modulos/shared-modulos.module';
+import {MatRadioModule} from '@angular/material/radio'; 
 @NgModule({
   declarations: [TourIndexComponent,TourCreateEditComponent],
   imports: [
@@ -21,7 +23,9 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     MatPaginatorModule,
     MatButtonModule,
     MatTooltipModule,
-    SweetAlert2Module
+    SweetAlert2Module,
+    MatRadioModule,
+    SharedModulosModule
   ]
 })
 export class TourModule { }
