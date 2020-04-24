@@ -24,7 +24,7 @@
             </div>
             <div class="card-body table-responsive">
                 <div class="mat-elevation-z8">
-                    <table class="table table-hover" mat-table [dataSource]="destinos">
+                    <table class="table table-hover" mat-table [dataSource]="categorias">
 
                         <!-- Position Column -->
                         <ng-container matColumnDef="id">
@@ -52,7 +52,7 @@
                                 <button mat-raised-button type="button" matTooltip="Eliminar categoria" (click)="eliminarCategoria(element.id,i)" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
                                 <i class="material-icons">close</i>
                                 </button>
-                                <a mat-raised-button type="button" (click)="editignCategoria(element.id,i)" matTooltip="Actualizar datos" data-toggle="modal" data-target="#createCategoria" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                                <a mat-raised-button type="button" (click)="editingCategoria(element.id,i)" matTooltip="Actualizar datos" data-toggle="modal" data-target="#createCategoria" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                     <i class="material-icons">edit</i>
                                 </a>
 
@@ -138,6 +138,7 @@
                     <div class="card">
                         <div class="card-header card-header-info">
                             <h4 id="txtTitulo" class="card-title">{{detalleCategoria.categoria.nombre}}</h4>
+                            <p class="card-category">Listado de destinos de esta categoria </p>
                         </div>
                         <div class="card-body ">
                             <table class="table table-hover">

@@ -23,7 +23,7 @@ export class CategoriaIndexComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'nombre', 'descripcion', 'opciones'];
 
-  destinos: any = [];
+  categorias: any = [];
 
   private baseURL = environment['api'].apiUrl;
   baseURLImagen = environment['apiImagen'].apiUrlImagen;
@@ -84,7 +84,7 @@ export class CategoriaIndexComponent implements OnInit {
 
     this.categoriaService.getCategorias(filtro).subscribe(
       (datos: any) => {
-        this.destinos = new MatTableDataSource < any > (datos.data);
+        this.categorias = new MatTableDataSource < any > (datos.data);
         this.length = datos.total;
         if (reset) {
           this.currentPage = 1;
@@ -118,7 +118,7 @@ export class CategoriaIndexComponent implements OnInit {
     });
   }
 
-  editignCategoria(categoria_id) {
+  editingCategoria(categoria_id) {
     this.categoria_id = categoria_id;
     this.categoriaService.getCategoria(categoria_id).subscribe((data) => {
       this.categoriaForm.get('nombre').setValue(data.categoria.nombre);
