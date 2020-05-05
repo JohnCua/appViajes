@@ -22,7 +22,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => PagesModule,
+        loadChildren: './views/pages/pages.module#PagesModule',
       },
     ]
   },
@@ -36,7 +36,7 @@ const routes: Routes = [
     children: [
       {
         path: 'panel',
-        loadChildren: () => PanelModule,
+        loadChildren: './views/panel/panel.module#PanelModule',
       }
     ]
   },
