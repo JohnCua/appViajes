@@ -6,10 +6,10 @@ export const environment = {
   production: false,
 
   api: {
-    apiUrl: 'http://3.135.225.61/api/'
+    apiUrl: 'http://3.17.193.72/api/'
   },
   apiImagen: {
-    apiUrlImagen: 'http://3.135.225.61/storage/',
+    apiUrlImagen: 'http://3.17.193.72/storage/',
   }
  };
 

@@ -5,63 +5,90 @@
                 <h4 id="txtTitulo" class="card-title">Registro de nuevo destino</h4>
             </div>
             <div class="card-body">
-                <form [(formGroup)]="destinoForm">
+                <form [(formGroup)]="destinoForm" (ngSubmit)="onSubmit()">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputEmail4">Nombre</label>
-                            <input type="text" class="form-control" formControlName="nombre" id="inputEmail4">
+                            <input type="text" class="form-control" formControlName="nombre" id="inputEmail4" [ngClass]="{ 'is-invalid': submitted  && getControl.nombre.errors  }">
+                            <div *ngIf="submitted && getControl.nombre.errors" class="invalid-feedback">
+                                <div *ngIf="getControl.nombre.errors.required">Ingrese el nombre del destino </div>
+                            </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputPassword4">Encabezado</label>
-                            <input type="text" class="form-control" formControlName="encabezado" id="inputPassword4">
+                            <input type="text" class="form-control" formControlName="encabezado" id="inputPassword4" [ngClass]="{ 'is-invalid': submitted  && getControl.encabezado.errors  }">
+                            <div *ngIf="submitted && getControl.encabezado.errors" class="invalid-feedback">
+                                <div *ngIf="getControl.encabezado.errors.required">Ingrese un encabezado </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputCity">Highlights</label>
-                            <input type="text" class="form-control" formControlName="highlights" id="inputCity">
+                            <input type="text" class="form-control" formControlName="highlights" id="inputCity" [ngClass]="{ 'is-invalid': submitted  && getControl.highlights.errors  }">
+                            <div *ngIf="submitted && getControl.highlights.errors" class="invalid-feedback">
+                                <div *ngIf="getControl.highlights.errors.required">Ingrese Highlights </div>
+                            </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="mas">Mas</label>
-                            <input type="text" class="form-control" formControlName="mas" id="mas">
+                            <input type="text" class="form-control" formControlName="mas" id="mas" [ngClass]="{ 'is-invalid': submitted  && getControl.mas.errors  }">
+                            <div *ngIf="submitted && getControl.mas.errors" class="invalid-feedback">
+                                <div *ngIf="getControl.mas.errors.required">Ingrese mas </div>
+                            </div>
                         </div>
 
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md">
                             <label>Descripcion</label>
-                            <textarea class="form-control" formControlName="descripcion" placeholder="Ingrese una breve descripcion"></textarea>
+                            <textarea class="form-control" formControlName="descripcion" placeholder="Ingrese una breve descripcion" [ngClass]="{ 'is-invalid': submitted  && getControl.descripcion.errors  }"></textarea>
+                            <div *ngIf="submitted && getControl.descripcion.errors" class="invalid-feedback">
+                                <div *ngIf="getControl.descripcion.errors.required">Ingrese descripcion </div>
+                            </div>
                         </div>
                     </div>
                     <br>
                     <div class="form-group text-center">
-                        <button style="width: 200px;" type="button" class="btn btn-default modal-title" data-toggle="modal" data-target="#ModaFile" (click)="SubirArchivosModal()">
-              <span> <i class="fas fa-upload"></i> Galeria</span>
-            </button>
+                        <button style="width: 200px;" type="button" class="btn btn-default modal-title" data-toggle="modal" data-target="#ModaFile" (click)="SubirArchivosModal()" [ngClass]="{ 'is-invalid': submitted  && getControl.galeria.errors  }">
+                     <span> <i class="fas fa-upload"></i> Galeria</span>
+                     </button>
+                        <div *ngIf="submitted && getControl.galeria.errors" class="invalid-feedback">
+                            <div *ngIf="getControl.galeria.errors.required">Suba alguna galeria </div>
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label>Pais</label>
-                            <select class="form-control" formControlName="pais_id" (click)="selectPais()">
-                <option value="0">Seleccione pais</option>
-                <option value="{{pais.id}}" *ngFor="let pais of paises">
-                  {{pais.nombre}}
-                </option>
-              </select>
+                            <select class="form-control" formControlName="pais_id" (click)="selectPais()" [ngClass]="{ 'is-invalid': submitted  && getControl.pais_id.errors  }">
+                            <option value="0">Seleccione pais</option>
+                            <option value="{{pais.id}}" *ngFor="let pais of paises">
+                            {{pais.nombre}}
+                            </option>
+                            </select>
+                            <div *ngIf="submitted && getControl.pais_id.errors" class="invalid-feedback">
+                                <div *ngIf="getControl.pais_id.errors.required">Seleccione pais </div>
+                            </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label>Lugar</label>
-                            <select class="form-control" formControlName="lugar_id" id="exampleFormControlSelect1">
-                <option value="0">Seleccione lugar</option>
-                <option value="{{lugar.id}}" *ngFor="let lugar of lugares">{{lugar.nombre}}</option>
-              </select>
+                            <select class="form-control" formControlName="lugar_id" [ngClass]="{ 'is-invalid': submitted  && getControl.lugar_id.errors  }">
+                            <option value="0">Seleccione lugar</option>
+                            <option [ngValue]="lugar.id" *ngFor="let lugar of lugares">{{lugar.nombre}}</option>
+                             </select>
+                            <div *ngIf="submitted && getControl.lugar_id.errors" class="invalid-feedback">
+                                <div *ngIf="getControl.lugar_id.errors.required">Seleccione lugar </div>
+                            </div>
                         </div>
                     </div>
                     <br>
                     <div class="form-group text-center">
                         <label>Categoria</label>
-                        <select multiple name="Categoria[]" id="selectCategoria" class="select2" style="width:100%">
-            </select>
+                        <select multiple name="Categoria[]" id="selectCategoria" formControlName="categoria_id" class="select2" style="width:100%" [ngClass]="{ 'is-invalid': submitted  && getControl.categoria_id.errors  }">
+                        </select>
+                        <div *ngIf="submitted && getControl.categoria_id.errors" class="invalid-feedback">
+                            <div *ngIf="getControl.categoria_id.errors.required">Seleccione alguna categoria </div>
+                        </div>
                     </div>
                     <br>
                     <button (click)="createditDestino()" ctype="submit" class="btn btn-primary pull-right">Guardar</button>

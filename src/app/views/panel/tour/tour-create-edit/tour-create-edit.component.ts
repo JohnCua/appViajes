@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
@@ -55,13 +55,16 @@ export class TourCreateEditComponent implements OnInit {
 
   estado = [ {id: 0, nombre: 'Por Iniciar'}, {id: 1, nombre: 'En Progreso'}, {id: 1, nombre: 'Finalizado'} ];
 
+  submitted = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private destinoService: DestinoService,
     private tourService: TourService,
     private etiquetaService: EtiquetaService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit() {
@@ -77,6 +80,9 @@ export class TourCreateEditComponent implements OnInit {
     } else {
       this.editing = false;
     }
+
+    this.changeDestino();
+    this.changeEtiquetas();
   }
 
   onInitForm() {
@@ -91,11 +97,11 @@ export class TourCreateEditComponent implements OnInit {
       fecha_fija: '',
       cantidad: [0, Validators.compose([Validators.required])],
       idioma: ['', Validators.compose([Validators.required])],
-      activo: [Boolean, Validators.compose([Validators.required])],
-      destino_id: 0,
+      activo: ['', Validators.compose([Validators.required])],
+      destino_id: ['', Validators.compose([Validators.required])],
       descripcion: ['', Validators.compose([Validators.required])],
       foto: ['', Validators.compose([Validators.required])],
-      etiqueta_id: 0
+      etiqueta_id: [[], Validators.compose([Validators.required])]
     });
   }
 
@@ -121,6 +127,9 @@ export class TourCreateEditComponent implements OnInit {
     this.filepdf.link[i].descripcion = descripcion;
   }
 
+  get getControl() {
+    return this.tourForm.controls;
+  }
 
   onFilesAddedPDF(files: File[], dropzone) {
     files.forEach(file => {
@@ -234,13 +243,12 @@ export class TourCreateEditComponent implements OnInit {
         };
         objeto.nombre = 'PDF almacenado ' + (1);
         objeto.nombreAA = pdf;
-        console.log(objeto)
         this.pdfSinGuardar.push(objeto);
 
         this.progresspdf = 100;
         this.guardarPdf();
       }
-    
+
     this.tourForm.get('fecha_fija').setValue(respuesta.tour.fecha_fija);
     this.tourForm.get('cantidad').setValue(respuesta.tour.cantidad);
     this.tourForm.get('idioma').setValue(respuesta.tour.idioma);
@@ -290,6 +298,25 @@ export class TourCreateEditComponent implements OnInit {
     });
   }
 
+  changeDestino() {
+    $('#selectDestino').on('change', () => {
+      if ( $('#selectDestino').val() ) {
+        this.tourForm.get('destino_id').setValue($('#selectDestino').val());
+        this.ngZone.run(() => {console.log('hola'); });
+      }
+    });
+  }
+
+
+  changeEtiquetas() {
+    $('#selectEtiqueta').on('change', () => {
+      if ( $('#selectEtiqueta').val() ) {
+        this.tourForm.get('etiqueta_id').setValue($('#selectEtiqueta').val());
+        this.ngZone.run(() => {console.log('hola'); });
+      }
+    });
+  }
+
   createditTour() {
     if (this.editing) {
        this.actualizarTour();
@@ -298,20 +325,17 @@ export class TourCreateEditComponent implements OnInit {
     }
   }
 
-  registrarNuevoTour() {
-    const destino = $('#selectDestino').val();
-    this.tourForm.get('destino_id').setValue(destino);
+  onSubmit() { this.submitted = true; }
 
-    const etiquetas = $("select[name='Etiqueta[]']").map(function() {
-      return $(this).val().valueOf();
-    }).toArray();
+  registrarNuevoTour() {
 
     if (this.tourForm.invalid) {
       return 0;
     }
-
+    const etiquetas = $("select[name='Etiqueta[]']").map(function() {
+      return $(this).val().valueOf();
+    }).toArray();
     this.tourService.createTour(this.tourForm.value).subscribe((respuesta) => {
-      console.log(respuesta)
       if (respuesta.respuesta !== 'Ese tour ya existe') {
         if (etiquetas.length) {
           const objeto = {
@@ -319,9 +343,7 @@ export class TourCreateEditComponent implements OnInit {
             tour_id: Number(respuesta.respuesta)
           };
 
-          console.log(objeto)
           this.etiquetaService.createEtiquetaTour(objeto).subscribe((respuestaFinal: any) => {
-            console.log(respuestaFinal)
             if (respuestaFinal.respuesta) {
               Swal.fire(
                 'Almacenamiento!',
@@ -345,6 +367,7 @@ export class TourCreateEditComponent implements OnInit {
         );
       }
     });
+    
 
   }
 

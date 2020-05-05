@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
@@ -45,12 +45,17 @@ export class DestinoCreateEditComponent implements OnInit {
   categorias: any = [];
   dataUrl = 'categoria';
 
+  categoriasSelected: any [] = [];
+
+  submitted = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private destinoService: DestinoService,
     private categoriaService: CategoriaService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private ngZone: NgZone
   ) {
     this.paises = [{
       id: 1,
@@ -71,6 +76,8 @@ export class DestinoCreateEditComponent implements OnInit {
     } else {
       this.editing = false;
     }
+
+    this.changeCategorias();
   }
 
   onInitForm() {
@@ -81,10 +88,14 @@ export class DestinoCreateEditComponent implements OnInit {
       galeria: ['', Validators.compose([Validators.required])],
       highlights: ['', Validators.compose([Validators.required])],
       mas: ['', Validators.compose([Validators.required])],
-      lugar_id: [0, Validators.compose([Validators.required])],
-      pais_id: [0],
-      categoria_id: 0,
+      lugar_id: ['', Validators.compose([Validators.required])],
+      pais_id: ['', Validators.compose([Validators.required])],
+      categoria_id: [[], Validators.compose([Validators.required])]
     });
+  }
+
+  get getControl() {
+    return this.destinoForm.controls;
   }
 
   selectPais() {
@@ -216,22 +227,33 @@ export class DestinoCreateEditComponent implements OnInit {
     }
   }
 
-  registrarDestino() {
-    const categorias = $("select[name='Categoria[]']").map( function() {
-      return $(this).val().valueOf();
-    }).toArray();
 
-    this.destinoForm.get('lugar_id').setValue(Number(this.destinoForm.get('lugar_id').value));
+  changeCategorias() {
+    $('#selectCategoria').on('change', () => {
+      if ( $('#selectCategoria').val() ) {
+        this.destinoForm.get('categoria_id').setValue($('#selectCategoria').val());
+        this.ngZone.run(() => {console.log('hola'); });
+      }
+    });
+  }
+
+  onSubmit() { this.submitted = true; }
+
+  registrarDestino() {
 
     if (this.destinoForm.invalid) {
       return 0;
     }
-    console.log(this.destinoForm.value)
+
+    this.categoriasSelected = $("select[name='Categoria[]']").map( function() {
+        return $(this).val().valueOf();
+      }).toArray();
+
     this.destinoService.createDestino(this.destinoForm.value).subscribe((respuesta) => {
       if (respuesta.respuesta) {
-        if (categorias.length) {
+        if (this.categoriasSelected.length) {
           const objeto = {
-            categoria_id: categorias,
+            categoria_id: this.categoriasSelected,
             destino_id: Number(respuesta.respuesta)
           };
           this.categoriaService.createCategoriaDestino(objeto).subscribe((respuestaFinal) => {
@@ -251,7 +273,6 @@ export class DestinoCreateEditComponent implements OnInit {
     }, (error) => {
       console.log(error);
     });
-
 
   }
 
