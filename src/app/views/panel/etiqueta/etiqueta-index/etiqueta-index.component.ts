@@ -129,7 +129,10 @@ export class EtiquetaIndexComponent implements OnInit {
     });
   }
 
-
+  limpiarModal(){
+    this.etiquetaForm.get('nombre').setValue('');
+    this.etiquetaForm.get('descripcion').setValue('N/A');
+  }
 
   guardarEtiqueta() {
     if (this.editing) {
@@ -155,7 +158,7 @@ export class EtiquetaIndexComponent implements OnInit {
       } else {
         Swal.fire(
           'Almacenamiento!',
-          'Ese tour ya existe.',
+          'Esa etiqueta ya existe.',
           'error'
         );
       }
@@ -200,7 +203,7 @@ export class EtiquetaIndexComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.etiquetaService.deleteEtiqueta(etiqueta_id).subscribe((respuesta) => {
-          if (respuesta.success) {
+          if (respuesta.respuesta) {
             // this.ngZone.run(()=>{
             //  this.destinos.data.splice(indice,1);
             //   });
@@ -210,7 +213,6 @@ export class EtiquetaIndexComponent implements OnInit {
               'Datos eliminado exitoso.',
               'success'
             );
-
           }
         });
       }

@@ -127,6 +127,10 @@ export class CategoriaIndexComponent implements OnInit {
     });
   }
 
+  limpiarModal(){
+    this.categoriaForm.get('nombre').setValue('');
+    this.categoriaForm.get('descripcion').setValue('N/A');
+  }
 
 
   guardarCategoria() {
@@ -186,7 +190,7 @@ export class CategoriaIndexComponent implements OnInit {
   }
 
 
-  eliminarCategoria(categoria_id, indice) {
+  eliminarCategoria(categoria_id) {
     const destino = {
       id: categoria_id
     };
@@ -201,7 +205,7 @@ export class CategoriaIndexComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.categoriaService.deleteCategoria(categoria_id).subscribe((respuesta) => {
-          if (respuesta.success) {
+          if (respuesta.respuesta) {
             // this.ngZone.run(()=>{
             //  this.destinos.data.splice(indice,1);
             //   });
@@ -211,7 +215,6 @@ export class CategoriaIndexComponent implements OnInit {
               'Datos eliminado exitoso.',
               'success'
             );
-
           }
         });
       }

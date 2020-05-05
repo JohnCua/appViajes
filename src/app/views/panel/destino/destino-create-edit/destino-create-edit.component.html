@@ -6,6 +6,15 @@
             </div>
             <div class="card-body">
                 <form [(formGroup)]="destinoForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group text-center">
+                        <label>Categoria(s)</label>
+                        <select multiple name="Categoria[]" id="selectCategoria" formControlName="categoria_id" class="select2" style="width:100%" [ngClass]="{ 'is-invalid': submitted  && getControl.categoria_id.errors  }">
+                        </select>
+                        <div *ngIf="submitted && getControl.categoria_id.errors" class="invalid-feedback">
+                            <div *ngIf="getControl.categoria_id.errors.required">Seleccione alguna categoria </div>
+                        </div>
+                    </div>
+                    <br>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputEmail4">Nombre</label>
@@ -81,16 +90,7 @@
                             </div>
                         </div>
                     </div>
-                    <br>
-                    <div class="form-group text-center">
-                        <label>Categoria</label>
-                        <select multiple name="Categoria[]" id="selectCategoria" formControlName="categoria_id" class="select2" style="width:100%" [ngClass]="{ 'is-invalid': submitted  && getControl.categoria_id.errors  }">
-                        </select>
-                        <div *ngIf="submitted && getControl.categoria_id.errors" class="invalid-feedback">
-                            <div *ngIf="getControl.categoria_id.errors.required">Seleccione alguna categoria </div>
-                        </div>
-                    </div>
-                    <br>
+                    <br>                    
                     <button (click)="createditDestino()" ctype="submit" class="btn btn-primary pull-right">Guardar</button>
                     <div class="clearfix"></div>
                 </form>

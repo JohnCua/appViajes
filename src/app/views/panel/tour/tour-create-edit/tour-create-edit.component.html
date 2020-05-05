@@ -6,6 +6,24 @@
             </div>
             <div class="card-body">
                 <form [(formGroup)]="tourForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group  text-center">
+                        <label>Destino</label>
+                        <select name="Destino[]" id="selectDestino" class="form-control" style="width:100%" formControlName="destino_id" [ngClass]="{ 'is-invalid': submitted  && getControl.destino_id.errors  }">
+                        </select>
+                        <div *ngIf="submitted && getControl.destino_id.errors" class="invalid-feedback">
+                            <div *ngIf="getControl.destino_id.errors.required">Seleccione destino </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group  text-center">
+                        <label>Etiqueta(s)</label>
+                        <select multiple name="Etiqueta[]" id="selectEtiqueta" class="form-control" style="width:100%" formControlName="etiqueta_id" [ngClass]="{ 'is-invalid': submitted  && getControl.etiqueta_id.errors  }">
+                        </select>
+                        <div *ngIf="submitted && getControl.etiqueta_id.errors" class="invalid-feedback">
+                            <div *ngIf="getControl.etiqueta_id.errors.required">Seleccione alguna etiqueta </div>
+                        </div>
+                    </div>
+                    <br>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputPassword4">Codigo</label>
@@ -129,28 +147,7 @@
                             </div>
                         </div>
                     </div>
-                    <br>
-
-                    <div class="form-group  text-center">
-                        <label>Destino</label>
-                        <select name="Destino[]" id="selectDestino" class="form-control" style="width:100%" formControlName="destino_id" [ngClass]="{ 'is-invalid': submitted  && getControl.destino_id.errors  }">
-                        </select>
-                        <div *ngIf="submitted && getControl.destino_id.errors" class="invalid-feedback">
-                            <div *ngIf="getControl.destino_id.errors.required">Seleccione destino </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group  text-center">
-                        <label>Etiqueta</label>
-                        <select multiple name="Etiqueta[]" id="selectEtiqueta" class="form-control" style="width:100%" formControlName="etiqueta_id" [ngClass]="{ 'is-invalid': submitted  && getControl.etiqueta_id.errors  }">
-                        </select>
-                        <div *ngIf="submitted && getControl.etiqueta_id.errors" class="invalid-feedback">
-                            <div *ngIf="getControl.etiqueta_id.errors.required">Seleccione alguna etiqueta </div>
-                        </div>
-                    </div>
-
-
-                    <br>
+                    <br>                    
                     <button (click)="createditTour()" ctype="submit" class="btn btn-primary pull-right">Guardar</button>
                     <div class="clearfix"></div>
                 </form>

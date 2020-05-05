@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="col-md-6 text-right">
-                        <button mat-raised-button type="button" data-toggle="modal" data-target="#createEtiqueta" matTooltip="Nueva etiqueta" [matTooltipPosition]="'above'" class="btn btn-secondary btn-link  btn-just-icon ">
+                        <button mat-raised-button type="button" data-toggle="modal" data-target="#createEtiqueta" (click)="limpiarModal()" matTooltip="Nueva etiqueta" [matTooltipPosition]="'above'" class="btn btn-secondary btn-link  btn-just-icon ">
               <i class="fas fa-1x fa-plus-square"></i>
             </button>
                     </div>
@@ -77,7 +77,7 @@
 </div>
 
 
-<!-- Modal crear y editar categoria-->
+<!-- Modal crear y editar etiqueta-->
 <div class="modal fade" id="createEtiqueta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -85,7 +85,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header card-header-info">
-                            <h4 id="txtTitulo" class="card-title">Registro de nueva categoria</h4>
+                            <h4 id="txtTitulo" class="card-title">Registro de nueva etiqueta</h4>
                         </div>
                         <div class="card-body ">
                             <form [(formGroup)]="etiquetaForm">

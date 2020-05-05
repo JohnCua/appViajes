@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="col-md-6 text-right">
-                        <button mat-raised-button type="button" data-toggle="modal" data-target="#createCategoria" matTooltip="Nueva categoria" [matTooltipPosition]="'above'" class="btn btn-secondary btn-link  btn-just-icon ">
+                        <button mat-raised-button type="button" data-toggle="modal" data-target="#createCategoria" (click)="limpiarModal()" matTooltip="Nueva categoria" [matTooltipPosition]="'above'" class="btn btn-secondary btn-link  btn-just-icon ">
               <i class="fas fa-1x fa-plus-square"></i>
             </button>
                     </div>
@@ -49,7 +49,7 @@
                         <ng-container matColumnDef="opciones">
                             <th class="text-warning" mat-header-cell *matHeaderCellDef> Opciones </th>
                             <td mat-cell class="td-actions " *matCellDef="let element; let i=index">
-                                <button mat-raised-button type="button" matTooltip="Eliminar categoria" (click)="eliminarCategoria(element.id,i)" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
+                                <button mat-raised-button type="button" matTooltip="Eliminar categoria" (click)="eliminarCategoria(element.id)" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
                                 <i class="material-icons">close</i>
                                 </button>
                                 <a mat-raised-button type="button" (click)="editingCategoria(element.id)" matTooltip="Actualizar datos" data-toggle="modal" data-target="#createCategoria" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
